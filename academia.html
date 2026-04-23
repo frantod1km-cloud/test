@@ -230,6 +230,94 @@
     }
     .ac-info-card p { font-size: 13px; color: rgba(255,255,255,0.5); margin: 0; line-height: 1.6; }
 
+    /* COURSE CARDS */
+    .ac-courses {
+      background: #000; padding: 90px 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .ac-courses .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .ac-courses-header { text-align: center; margin-bottom: 60px; }
+    .ac-courses-header h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(32px, 5vw, 60px); font-weight: 700;
+      text-transform: uppercase; color: #fff;
+      line-height: 1.1; margin-bottom: 16px; letter-spacing: 1px;
+    }
+    .ac-courses-header p { font-size: 16px; color: rgba(255,255,255,0.5); max-width: 600px; margin: 0 auto; }
+    .ac-courses-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    @media (max-width: 991px) { .ac-courses-grid { grid-template-columns: 1fr; } }
+    .ac-course-card {
+      background: #111; border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px; padding: 32px;
+      display: flex; flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .ac-course-card:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-3px); }
+    .ac-course-card-icon {
+      width: 52px; height: 52px; border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .ac-course-card-icon i { font-size: 22px; color: #fff; }
+    .ac-course-card h4 {
+      font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700;
+      text-transform: uppercase; color: #fff; margin-bottom: 4px; letter-spacing: 0.5px;
+    }
+    .ac-course-card .ac-card-tag {
+      font-size: 12px; color: rgba(255,255,255,0.4); font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;
+    }
+    .ac-course-card p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.65; margin-bottom: 20px; }
+    .ac-course-checklist { list-style: none; padding: 0; margin: 0 0 28px; flex: 1; }
+    .ac-course-checklist li {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; color: rgba(255,255,255,0.65);
+      margin-bottom: 10px;
+    }
+    .ac-course-checklist li i { color: #fff; font-size: 13px; opacity: 0.7; }
+    .ac-course-card .ac-btn-wa {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: #fff; color: #000;
+      padding: 12px 20px; border-radius: 5px;
+      font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      text-decoration: none; transition: background 0.2s;
+    }
+    .ac-course-card .ac-btn-wa:hover { background: #ddd; color: #000; text-decoration: none; }
+
+    /* INSTALACIONES */
+    .ac-instalaciones {
+      background: #0a0a0a; padding: 90px 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .ac-instalaciones .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .ac-instalaciones-header { text-align: center; margin-bottom: 60px; }
+    .ac-instalaciones-header h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(32px, 5vw, 60px); font-weight: 700;
+      text-transform: uppercase; color: #fff;
+      line-height: 1.1; margin-bottom: 16px;
+    }
+    .ac-instalaciones-header p { font-size: 16px; color: rgba(255,255,255,0.5); max-width: 620px; margin: 0 auto; }
+    .ac-inst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+    @media (max-width: 767px) { .ac-inst-grid { grid-template-columns: 1fr; gap: 30px; } }
+    .ac-inst-item { text-align: center; }
+    .ac-inst-icon {
+      width: 70px; height: 70px; border-radius: 50%;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .ac-inst-icon i { font-size: 28px; color: #fff; }
+    .ac-inst-item h4 {
+      font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700;
+      text-transform: uppercase; color: #fff; margin-bottom: 12px; letter-spacing: 1px;
+    }
+    .ac-inst-item p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+
     /* CTA BOTTOM */
     .ac-cta-section {
       background: #111; border-top: 1px solid rgba(255,255,255,0.07);
@@ -378,6 +466,125 @@
           <div class="ac-card-num">08</div>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- CURSOS PRINCIPALES -->
+  <section class="ac-courses">
+    <div class="container">
+      <div class="ac-courses-header">
+        <h2>Programas de<br>Capacitación</h2>
+        <p>Formación profesional para cada etapa de la carrera en seguridad privada.</p>
+      </div>
+      <div class="ac-courses-grid">
+        <div class="ac-course-card">
+          <div class="ac-course-card-icon"><i class="fa fa-star"></i></div>
+          <h4>Custodia VIP</h4>
+          <div class="ac-card-tag">Nivel Avanzado</div>
+          <p>Entrenamiento especializado para la protección de personas de alto perfil con protocolos internacionales.</p>
+          <ul class="ac-course-checklist">
+            <li><i class="fa fa-check-circle"></i> Protocolos de escoltas</li>
+            <li><i class="fa fa-check-circle"></i> Manejo de vehículos blindados</li>
+            <li><i class="fa fa-check-circle"></i> Evaluación de amenazas</li>
+          </ul>
+          <a href="https://wa.me/5491100000000?text=Consulta%20sobre%20Custodia%20VIP" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Consultar por WhatsApp</a>
+        </div>
+        <div class="ac-course-card">
+          <div class="ac-course-card-icon"><i class="fa fa-car"></i></div>
+          <h4>Custodia Móvil</h4>
+          <div class="ac-card-tag">Operativo</div>
+          <p>Formación para operaciones de acompañamiento y traslado seguro de personas y valores en movimiento.</p>
+          <ul class="ac-course-checklist">
+            <li><i class="fa fa-check-circle"></i> Conducción táctica</li>
+            <li><i class="fa fa-check-circle"></i> Rutas y contra-vigilancia</li>
+            <li><i class="fa fa-check-circle"></i> Coordinación de equipo</li>
+          </ul>
+          <a href="https://wa.me/5491100000000?text=Consulta%20sobre%20Custodia%20Movil" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Consultar por WhatsApp</a>
+        </div>
+        <div class="ac-course-card">
+          <div class="ac-course-card-icon"><i class="fa fa-graduation-cap"></i></div>
+          <h4>Curso Inicial</h4>
+          <div class="ac-card-tag">Ingresantes</div>
+          <p>Formación básica completa para nuevos agentes. Desde cero hasta la habilitación operativa con acompañamiento.</p>
+          <ul class="ac-course-checklist">
+            <li><i class="fa fa-check-circle"></i> Marco legal y normativas</li>
+            <li><i class="fa fa-check-circle"></i> Técnicas de control</li>
+            <li><i class="fa fa-check-circle"></i> Primeros auxilios</li>
+          </ul>
+          <a href="https://wa.me/5491100000000?text=Consulta%20sobre%20Curso%20Inicial" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Consultar por WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CURSOS SECUNDARIOS -->
+  <section class="ac-courses" style="background:#111; padding-top:0; padding-bottom:90px;">
+    <div class="container">
+      <div class="ac-courses-grid">
+        <div class="ac-course-card" style="background:#1a1a1a;">
+          <div class="ac-course-card-icon"><i class="fa fa-video-camera"></i></div>
+          <h4>Seguridad Electrónica</h4>
+          <div class="ac-card-tag">Técnico</div>
+          <p>Operación de sistemas CCTV, alarmas y control de accesos. Formación teórico-práctica con equipos reales.</p>
+          <ul class="ac-course-checklist">
+            <li><i class="fa fa-check-circle"></i> Instalación y configuración CCTV</li>
+            <li><i class="fa fa-check-circle"></i> Monitoreo remoto 24/7</li>
+            <li><i class="fa fa-check-circle"></i> Control de accesos biométrico</li>
+          </ul>
+          <a href="https://wa.me/5491100000000?text=Consulta%20sobre%20Seguridad%20Electronica" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Consultar por WhatsApp</a>
+        </div>
+        <div class="ac-course-card" style="background:#1a1a1a;">
+          <div class="ac-course-card-icon"><i class="fa fa-send"></i></div>
+          <h4>Operación de Drones</h4>
+          <div class="ac-card-tag">Especialización</div>
+          <p>Uso de drones con cámara térmica para vigilancia perimetral nocturna y reconocimiento de zonas críticas.</p>
+          <ul class="ac-course-checklist">
+            <li><i class="fa fa-check-circle"></i> Vuelo táctico y navegación</li>
+            <li><i class="fa fa-check-circle"></i> Cámara térmica nocturna</li>
+            <li><i class="fa fa-check-circle"></i> Normativa de uso</li>
+          </ul>
+          <a href="https://wa.me/5491100000000?text=Consulta%20sobre%20Drones" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Consultar por WhatsApp</a>
+        </div>
+        <div class="ac-course-card" style="background:#1a1a1a;">
+          <div class="ac-course-card-icon"><i class="fa fa-refresh"></i></div>
+          <h4>Reciclaje y Actualización</h4>
+          <div class="ac-card-tag">Agentes en Actividad</div>
+          <p>Programas de actualización para agentes activos. Nuevas técnicas, normativas vigentes y práctica intensiva.</p>
+          <ul class="ac-course-checklist">
+            <li><i class="fa fa-check-circle"></i> Nuevas normativas legales</li>
+            <li><i class="fa fa-check-circle"></i> Técnicas actualizadas</li>
+            <li><i class="fa fa-check-circle"></i> Evaluación y certificación</li>
+          </ul>
+          <a href="https://wa.me/5491100000000?text=Consulta%20sobre%20Reciclaje" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Consultar por WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALACIONES -->
+  <section class="ac-instalaciones">
+    <div class="container">
+      <div class="ac-instalaciones-header">
+        <h2>Instalaciones y<br>Equipamiento</h2>
+        <p>Contamos con todo lo necesario para una formación profesional en un entorno seguro y de primer nivel.</p>
+      </div>
+      <div class="ac-inst-grid">
+        <div class="ac-inst-item">
+          <div class="ac-inst-icon"><i class="fa fa-building"></i></div>
+          <h4>Instalaciones Propias</h4>
+          <p>Espacios equipados para la práctica táctica, simulacros operativos y entrenamiento físico supervisado.</p>
+        </div>
+        <div class="ac-inst-item">
+          <div class="ac-inst-icon"><i class="fa fa-shield"></i></div>
+          <h4>Máxima Seguridad</h4>
+          <p>Protocolos de seguridad internacionales y equipamiento de protección completo para una práctica segura y controlada.</p>
+        </div>
+        <div class="ac-inst-item">
+          <div class="ac-inst-icon"><i class="fa fa-users"></i></div>
+          <h4>Instructores Certificados</h4>
+          <p>Equipo de instructores con experiencia en fuerzas de seguridad y más de 15 años en el sector privado.</p>
+        </div>
       </div>
     </div>
   </section>
