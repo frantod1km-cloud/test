@@ -378,3 +378,35 @@ footer .footer-info p a { color: var(--bz-silver-light); }
 }
 .whatsapp-btn i { font-size: 28px; }
 .whatsapp-btn:hover { background: #1ebe5d; color: #fff; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(37,211,102,0.5); text-decoration: none; }
+
+/* Nav WhatsApp button */
+.order_online--wa { background: #000 !important; color: #fff !important; display: inline-flex; align-items: center; gap: 6px; }
+.order_online--wa i { font-size: 18px; }
+.order_online--wa:hover { background: #222 !important; color: #fff !important; }
+
+/* WhatsApp button dark */
+.whatsapp-btn--dark { background: #111 !important; box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important; }
+.whatsapp-btn--dark:hover { background: #333 !important; box-shadow: 0 8px 30px rgba(0,0,0,0.5) !important; }
+
+/* Client icon */
+.client-icon { font-size: 70px; color: #fff; opacity: 0.6; }
+
+/* Mockup section */
+.mockup_section { background: var(--bz-dark); padding: 60px 0; }
+.mockup-img { width: 100%; border-radius: 12px; object-fit: cover; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+.mockup_owl-carousel .owl-nav button { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1) !important; color: #fff !important; width: 36px; height: 36px; border-radius: 50% !important; font-size: 18px !important; }
+.mockup_owl-carousel .owl-nav button.owl-prev { left: -18px; }
+.mockup_owl-carousel .owl-nav button.owl-next { right: -18px; }
+.mockup_owl-carousel .owl-dots { text-align: center; margin-top: 14px; }
+.mockup_owl-carousel .owl-dot span { background: rgba(255,255,255,0.3) !important; }
+.mockup_owl-carousel .owl-dot.active span { background: #fff !important; }
+
+/* Benefits list */
+.benefits-list { padding-left: 30px; }
+.benefit-item { display: flex; gap: 16px; margin-bottom: 24px; align-items: flex-start; }
+.benefit-icon { flex-shrink: 0; width: 42px; height: 42px; background: rgba(255,255,255,0.08); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
+.benefit-icon i { font-size: 18px; color: #fff; }
+.benefit-content h5 { font-family: 'Rajdhani', sans-serif; font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.benefit-content p { font-size: 13px; color: var(--bz-silver); margin-bottom: 4px; line-height: 1.5; }
+.benefit-adios { color: #aaa !important; font-size: 12px !important; }
+.benefit-adios i { color: #e55; margin-right: 4px; }
