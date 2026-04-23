@@ -333,7 +333,17 @@
     .ac-testi-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
     }
-    @media (max-width: 991px) { .ac-testi-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 991px) {
+      .ac-testimonials { overflow: hidden; }
+      .ac-testi-grid {
+        display: flex; flex-wrap: nowrap; gap: 16px;
+        animation: ticker 28s linear infinite;
+        width: max-content;
+      }
+      .ac-testi-card {
+        width: 280px; flex-shrink: 0;
+      }
+    }
     .ac-testi-card {
       background: #111; border: 1px solid rgba(255,255,255,0.08);
       border-radius: 10px; padding: 28px 28px 24px;
