@@ -282,7 +282,14 @@
     .ac-courses-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
     }
-    @media (max-width: 991px) { .ac-courses-grid { grid-template-columns: 1fr; } }
+    .ac-courses-grid--2col {
+      grid-template-columns: repeat(2, minmax(0, 400px));
+      justify-content: center;
+    }
+    @media (max-width: 991px) {
+      .ac-courses-grid { grid-template-columns: 1fr; }
+      .ac-courses-grid--2col { grid-template-columns: 1fr; }
+    }
     .ac-course-card {
       background: #111; border: 1px solid rgba(255,255,255,0.08);
       border-radius: 10px; padding: 32px;
@@ -561,7 +568,7 @@
         <h2>Clases de Tiro<br>y Servicios de Gestoría</h2>
         <p>Ofrecemos clases de tiro para todos los niveles, desde la idoneidad de tiro para principiantes hasta cursos avanzados.</p>
       </div>
-      <div class="ac-courses-grid" style="justify-items:center; grid-template-columns: repeat(2,minmax(0,400px)); justify-content:center;">
+      <div class="ac-courses-grid ac-courses-grid--2col">
         <div class="ac-course-card" style="background:#1a1a1a;">
           <div class="ac-course-card-header">
             <div class="ac-course-card-icon"><i class="fa fa-building"></i></div>
