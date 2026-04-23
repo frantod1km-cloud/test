@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="keywords" content="BZ Academia, seguridad privada, formación, capacitación, agentes" />
+  <meta name="description" content="BZ Academia - Formación y capacitación profesional en seguridad privada" />
+  <title>BZ Academia - BZ Seguridad Privada</title>
+  <link rel="shortcut icon" href="images/favicon.png" type="">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/responsive.css" rel="stylesheet" />
+  <style>
+    /* ── Hero ── */
+    .academia-hero {
+      background: #000;
+      padding: 100px 0 60px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .academia-hero h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 64px;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin-bottom: 16px;
+    }
+    .academia-hero h1 span { color: #fff; border-bottom: 3px solid #fff; padding-bottom: 4px; }
+    .academia-hero p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.6);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── Gallery ── */
+    .academia-gallery {
+      background: #0a0a0a;
+      padding: 70px 0 80px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 50px;
+    }
+    @media (max-width: 991px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
+    @media (max-width: 575px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+
+    /* ── Flip Card ── */
+    .flip-card {
+      perspective: 1000px;
+      aspect-ratio: 3/4;
+      cursor: pointer;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 10px;
+    }
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .flip-card-front img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(15%);
+      transition: filter 0.3s;
+    }
+    .flip-card:hover .flip-card-front img { filter: grayscale(0%); }
+
+    .flip-card-back {
+      background: #111;
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 24px;
+      text-align: center;
+    }
+    .flip-card-back img.back-logo {
+      width: 70px;
+      opacity: 0.85;
+      margin-bottom: 18px;
+    }
+    .flip-card-back .back-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: 0.7;
+    }
+    .flip-card-back .back-divider {
+      width: 40px;
+      height: 1px;
+      background: rgba(255,255,255,0.3);
+      margin: 14px auto;
+    }
+    .flip-card-back .back-num {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.12);
+      line-height: 1;
+    }
+
+    /* ── Section heading override for dark bg ── */
+    .academia-gallery .heading_container h2 { color: #fff; }
+    .academia-gallery .heading_container h2 span { color: #fff; border-bottom: 2px solid rgba(255,255,255,0.5); }
+    .academia-gallery .heading_container p { color: rgba(255,255,255,0.5); }
+  </style>
+</head>
+
+<body>
+
+  <!-- header -->
+  <div class="hero_area" style="min-height: unset;">
+    <div class="bg-box" style="display:none;"></div>
+    <header class="header_section" style="position:relative; background:#000; border-bottom:1px solid rgba(255,255,255,0.08);">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <a class="navbar-brand" href="index.html">
+            <img src="images/logo.png" alt="BZ Seguridad Privada" class="navbar-logo">
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="servicios.html">Servicios</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="nosotros.html">Nosotros</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="academia.html">BZ Academia <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="contacto.html">Contacto</a>
+              </li>
+            </ul>
+            <div class="user_option">
+              <a href="tel:+5411XXXXXXXX" class="user_link">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+              </a>
+              <a href="https://wa.me/5491100000000?text=Hola%2C%20quisiera%20contactarme%20con%20BZ%20Seguridad" target="_blank" class="order_online order_online--wa">
+                <i class="fa fa-whatsapp"></i> Contactanos
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+  </div>
+
+  <!-- hero -->
+  <section class="academia-hero">
+    <div class="container">
+      <h1>BZ <span>Academia</span></h1>
+      <p>Formación y capacitación profesional para agentes de seguridad. Entrenamiento de alto nivel con los mejores instructores.</p>
+    </div>
+  </section>
+
+  <!-- gallery -->
+  <section class="academia-gallery">
+    <div class="container">
+      <div class="heading_container heading_center">
+        <h2>Nuestra <span>Galería</span></h2>
+        <p>Pasá el cursor sobre cada imagen para descubrirla</p>
+      </div>
+      <div class="gallery-grid">
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="images/A1.jpg" alt="BZ Academia">
+            </div>
+            <div class="flip-card-back">
+              <img src="images/logo.png" class="back-logo" alt="BZ">
+              <div class="back-divider"></div>
+              <div class="back-label">BZ Academia</div>
+              <div class="back-num">01</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="images/A2.jpg" alt="BZ Academia">
+            </div>
+            <div class="flip-card-back">
+              <img src="images/logo.png" class="back-logo" alt="BZ">
+              <div class="back-divider"></div>
+              <div class="back-label">BZ Academia</div>
+              <div class="back-num">02</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="images/A3.jpg" alt="BZ Academia">
+            </div>
+            <div class="flip-card-back">
+              <img src="images/logo.png" class="back-logo" alt="BZ">
+              <div class="back-divider"></div>
+              <div class="back-label">BZ Academia</div>
+              <div class="back-num">03</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="images/A4.jpg" alt="BZ Academia">
+            </div>
+            <div class="flip-card-back">
+              <img src="images/logo.png" class="back-logo" alt="BZ">
+              <div class="back-divider"></div>
+              <div class="back-label">BZ Academia</div>
+              <div class="back-num">04</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="images/A5.jpg" alt="BZ Academia">
+            </div>
+            <div class="flip-card-back">
+              <img src="images/logo.png" class="back-logo" alt="BZ">
+              <div class="back-divider"></div>
+              <div class="back-label">BZ Academia</div>
+              <div class="back-num">05</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="images/A6.jpg" alt="BZ Academia">
+            </div>
+            <div class="flip-card-back">
+              <img src="images/logo.png" class="back-logo" alt="BZ">
+              <div class="back-divider"></div>
+              <div class="back-label">BZ Academia</div>
+              <div class="back-num">06</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="images/A7.jpg" alt="BZ Academia">
+            </div>
+            <div class="flip-card-back">
+              <img src="images/logo.png" class="back-logo" alt="BZ">
+              <div class="back-divider"></div>
+              <div class="back-label">BZ Academia</div>
+              <div class="back-num">07</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="images/A8.jpg" alt="BZ Academia">
+            </div>
+            <div class="flip-card-back">
+              <img src="images/logo.png" class="back-logo" alt="BZ">
+              <div class="back-divider"></div>
+              <div class="back-label">BZ Academia</div>
+              <div class="back-num">08</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer class="footer_section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 footer-col">
+          <div class="footer_contact">
+            <h4>Contacto</h4>
+            <div class="contact_link_box">
+              <a href="#"><i class="fa fa-map-marker"></i><span>Buenos Aires, Argentina</span></a>
+              <a href="tel:+5411XXXXXXXX"><i class="fa fa-phone"></i><span>+54 11 XXXX-XXXX</span></a>
+              <a href="https://wa.me/5491100000000" target="_blank"><i class="fa fa-whatsapp"></i><span>Escribinos por WhatsApp</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 footer-col">
+          <div class="footer_detail">
+            <a href="index.html" class="footer-logo"><img src="images/logo.png" alt="BZ Seguridad Privada" class="footer-logo-img"></a>
+            <p>Empresa líder en seguridad privada. Protegemos lo que más importa con profesionalismo, tecnología y compromiso.</p>
+            <div class="footer_social">
+              <a href=""><i class="fa fa-facebook"></i></a>
+              <a href=""><i class="fa fa-instagram"></i></a>
+              <a href=""><i class="fa fa-linkedin"></i></a>
+              <a href="https://wa.me/5491100000000" target="_blank"><i class="fa fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 footer-col">
+          <h4>Horario de Atención</h4>
+          <p>Central de Monitoreo</p>
+          <p>24 horas / 365 días</p>
+          <br>
+          <p>Oficinas Comerciales</p>
+          <p>Lun a Vie: 9:00 - 18:00 hs</p>
+        </div>
+      </div>
+      <div class="footer-info">
+        <p>&copy; <span id="displayYear"></span> BZ Seguridad Privada. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="js/custom.js"></script>
+</body>
+</html>
