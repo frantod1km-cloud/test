@@ -366,3 +366,15 @@ footer .footer-info p a { color: var(--bz-silver-light); }
 
 /* Override owl dots for trust */
 .trust_owl-carousel .owl-stage { display: flex; align-items: stretch; }
+
+/* WhatsApp button */
+.whatsapp-btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: #25D366; color: #fff;
+  padding: 18px 40px; border-radius: 50px;
+  font-family: "Rajdhani", sans-serif; font-size: 20px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px;
+  text-decoration: none; transition: all 0.3s; box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+}
+.whatsapp-btn i { font-size: 28px; }
+.whatsapp-btn:hover { background: #1ebe5d; color: #fff; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(37,211,102,0.5); text-decoration: none; }
