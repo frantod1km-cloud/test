@@ -53,80 +53,24 @@
     @media (max-width: 991px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
     @media (max-width: 575px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
 
-    /* ── Flip Card ── */
+    /* ── Gallery Card ── */
     .flip-card {
-      perspective: 1000px;
       aspect-ratio: 3/4;
-      cursor: pointer;
-    }
-    .flip-card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
-      border-radius: 10px;
-    }
-    .flip-card:hover .flip-card-inner {
-      transform: rotateY(180deg);
-    }
-    .flip-card-front,
-    .flip-card-back {
-      position: absolute;
-      inset: 0;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
       border-radius: 10px;
       overflow: hidden;
     }
+    .flip-card-inner { width: 100%; height: 100%; }
+    .flip-card-front { width: 100%; height: 100%; }
+    .flip-card-back { display: none; }
     .flip-card-front img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      filter: grayscale(15%);
-      transition: filter 0.3s;
+      border-radius: 10px;
+      transition: transform 0.3s;
     }
-    .flip-card:hover .flip-card-front img { filter: grayscale(0%); }
-
-    .flip-card-back {
-      background: #111;
-      transform: rotateY(180deg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(255,255,255,0.12);
-      padding: 24px;
-      text-align: center;
-    }
-    .flip-card-back img.back-logo {
-      width: 70px;
-      opacity: 0.85;
-      margin-bottom: 18px;
-    }
-    .flip-card-back .back-label {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: #fff;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      opacity: 0.7;
-    }
-    .flip-card-back .back-divider {
-      width: 40px;
-      height: 1px;
-      background: rgba(255,255,255,0.3);
-      margin: 14px auto;
-    }
-    .flip-card-back .back-num {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 48px;
-      font-weight: 700;
-      color: rgba(255,255,255,0.12);
-      line-height: 1;
-    }
+    .flip-card:hover .flip-card-front img { transform: scale(1.04); }
 
     /* ── Section heading override for dark bg ── */
     .academia-gallery .heading_container h2 { color: #fff; }
