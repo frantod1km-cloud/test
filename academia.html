@@ -123,18 +123,31 @@
     .ac-features-bar {
       background: #111; border-top: 1px solid rgba(255,255,255,0.07);
       border-bottom: 1px solid rgba(255,255,255,0.07);
-      padding: 28px 0;
+      padding: 28px 0; overflow: hidden;
     }
     .ac-features-bar .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     .ac-features-list {
       display: flex; justify-content: space-between; align-items: center;
       flex-wrap: wrap; gap: 20px;
     }
-    .ac-feature-item { display: flex; align-items: center; gap: 12px; }
+    .ac-feature-item { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
     .ac-feature-item i { font-size: 20px; color: rgba(255,255,255,0.6); }
     .ac-feature-item span {
       font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 600;
       text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.7);
+    }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @media (max-width: 768px) {
+      .ac-features-bar .container { padding: 0; }
+      .ac-features-list {
+        display: flex; flex-wrap: nowrap; gap: 40px;
+        animation: ticker 18s linear infinite;
+        width: max-content;
+        justify-content: flex-start;
+      }
     }
 
     /* GALLERY */
@@ -257,20 +270,23 @@
       transition: border-color 0.2s, transform 0.2s;
     }
     .ac-course-card:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-3px); }
+    .ac-course-card-header {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 16px;
+    }
     .ac-course-card-icon {
       width: 52px; height: 52px; border-radius: 10px;
       background: rgba(255,255,255,0.08);
       display: flex; align-items: center; justify-content: center;
-      margin-bottom: 20px;
+      flex-shrink: 0;
     }
     .ac-course-card-icon i { font-size: 22px; color: #fff; }
-    .ac-course-card h4 {
+    .ac-course-card-header h4 {
       font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700;
-      text-transform: uppercase; color: #fff; margin-bottom: 4px; letter-spacing: 0.5px;
+      text-transform: uppercase; color: #fff; margin-bottom: 2px; letter-spacing: 0.5px;
     }
     .ac-course-card .ac-card-tag {
       font-size: 12px; color: rgba(255,255,255,0.4); font-weight: 600;
-      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0;
     }
     .ac-course-card p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.65; margin-bottom: 20px; }
     .ac-course-checklist { list-style: none; padding: 0; margin: 0 0 28px; flex: 1; }
@@ -279,7 +295,51 @@
       font-size: 13px; color: rgba(255,255,255,0.65);
       margin-bottom: 10px;
     }
-    .ac-course-checklist li i { color: #fff; font-size: 13px; opacity: 0.7; }
+    .ac-course-checklist li i { color: #4ade80; font-size: 13px; }
+
+    /* TESTIMONIALS */
+    .ac-testimonials {
+      background: #000; padding: 90px 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .ac-testimonials .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .ac-testimonials-header { text-align: center; margin-bottom: 60px; }
+    .ac-testimonials-header h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(32px, 5vw, 56px); font-weight: 700;
+      text-transform: uppercase; color: #fff; letter-spacing: 1px; margin-bottom: 12px;
+    }
+    .ac-testimonials-header p { font-size: 15px; color: rgba(255,255,255,0.45); }
+    .ac-testi-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    @media (max-width: 991px) { .ac-testi-grid { grid-template-columns: 1fr; } }
+    .ac-testi-card {
+      background: #111; border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px; padding: 28px 28px 24px;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: border-color 0.2s;
+    }
+    .ac-testi-card:hover { border-color: rgba(255,255,255,0.2); }
+    .ac-testi-stars { display: flex; gap: 4px; }
+    .ac-testi-stars i { color: #f59e0b; font-size: 14px; }
+    .ac-testi-card blockquote {
+      font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.7;
+      margin: 0; font-style: italic;
+    }
+    .ac-testi-author { display: flex; align-items: center; gap: 14px; margin-top: auto; }
+    .ac-testi-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .ac-testi-avatar i { font-size: 20px; color: rgba(255,255,255,0.5); }
+    .ac-testi-name {
+      font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700;
+      text-transform: uppercase; color: #fff; letter-spacing: 0.5px; margin-bottom: 2px;
+    }
+    .ac-testi-role { font-size: 12px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 1px; }
     .ac-course-card .ac-btn-wa {
       display: flex; align-items: center; justify-content: center; gap: 8px;
       background: #fff; color: #000;
@@ -422,9 +482,10 @@
       </div>
       <div class="ac-courses-grid">
         <div class="ac-course-card">
-          <div class="ac-course-card-icon"><i class="fa fa-star"></i></div>
-          <h4>Custodia VIP</h4>
-          <div class="ac-card-tag">Nivel Avanzado</div>
+          <div class="ac-course-card-header">
+            <div class="ac-course-card-icon"><i class="fa fa-star"></i></div>
+            <div><h4>Custodia VIP</h4><div class="ac-card-tag">Nivel Avanzado</div></div>
+          </div>
           <p>Entrenamiento especializado para la protección de personas de alto perfil con protocolos internacionales.</p>
           <ul class="ac-course-checklist">
             <li><i class="fa fa-check-circle"></i> Protocolos de escoltas</li>
@@ -434,9 +495,10 @@
           <a href="https://wa.me/5491100000000?text=Consulta%20sobre%20Custodia%20VIP" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Consultar por WhatsApp</a>
         </div>
         <div class="ac-course-card">
-          <div class="ac-course-card-icon"><i class="fa fa-car"></i></div>
-          <h4>Custodia Móvil</h4>
-          <div class="ac-card-tag">Operativo</div>
+          <div class="ac-course-card-header">
+            <div class="ac-course-card-icon"><i class="fa fa-car"></i></div>
+            <div><h4>Custodia Móvil</h4><div class="ac-card-tag">Operativo</div></div>
+          </div>
           <p>Formación para operaciones de acompañamiento y traslado seguro de personas y valores en movimiento.</p>
           <ul class="ac-course-checklist">
             <li><i class="fa fa-check-circle"></i> Conducción táctica</li>
@@ -446,9 +508,10 @@
           <a href="https://wa.me/5491100000000?text=Consulta%20sobre%20Custodia%20Movil" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Consultar por WhatsApp</a>
         </div>
         <div class="ac-course-card">
-          <div class="ac-course-card-icon"><i class="fa fa-graduation-cap"></i></div>
-          <h4>Curso Inicial</h4>
-          <div class="ac-card-tag">Ingresantes</div>
+          <div class="ac-course-card-header">
+            <div class="ac-course-card-icon"><i class="fa fa-graduation-cap"></i></div>
+            <div><h4>Curso Inicial</h4><div class="ac-card-tag">Ingresantes</div></div>
+          </div>
           <p>Formación básica completa para nuevos agentes. Desde cero hasta la habilitación operativa con acompañamiento.</p>
           <ul class="ac-course-checklist">
             <li><i class="fa fa-check-circle"></i> Marco legal y normativas</li>
@@ -466,9 +529,10 @@
     <div class="container">
       <div class="ac-courses-grid">
         <div class="ac-course-card" style="background:#1a1a1a;">
-          <div class="ac-course-card-icon"><i class="fa fa-video-camera"></i></div>
-          <h4>Seguridad Electrónica</h4>
-          <div class="ac-card-tag">Técnico</div>
+          <div class="ac-course-card-header">
+            <div class="ac-course-card-icon"><i class="fa fa-video-camera"></i></div>
+            <div><h4>Seguridad Electrónica</h4><div class="ac-card-tag">Técnico</div></div>
+          </div>
           <p>Operación de sistemas CCTV, alarmas y control de accesos. Formación teórico-práctica con equipos reales.</p>
           <ul class="ac-course-checklist">
             <li><i class="fa fa-check-circle"></i> Instalación y configuración CCTV</li>
@@ -478,9 +542,10 @@
           <a href="https://wa.me/5491100000000?text=Consulta%20sobre%20Seguridad%20Electronica" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Consultar por WhatsApp</a>
         </div>
         <div class="ac-course-card" style="background:#1a1a1a;">
-          <div class="ac-course-card-icon"><i class="fa fa-send"></i></div>
-          <h4>Operación de Drones</h4>
-          <div class="ac-card-tag">Especialización</div>
+          <div class="ac-course-card-header">
+            <div class="ac-course-card-icon"><i class="fa fa-send"></i></div>
+            <div><h4>Operación de Drones</h4><div class="ac-card-tag">Especialización</div></div>
+          </div>
           <p>Uso de drones con cámara térmica para vigilancia perimetral nocturna y reconocimiento de zonas críticas.</p>
           <ul class="ac-course-checklist">
             <li><i class="fa fa-check-circle"></i> Vuelo táctico y navegación</li>
@@ -490,9 +555,10 @@
           <a href="https://wa.me/5491100000000?text=Consulta%20sobre%20Drones" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Consultar por WhatsApp</a>
         </div>
         <div class="ac-course-card" style="background:#1a1a1a;">
-          <div class="ac-course-card-icon"><i class="fa fa-refresh"></i></div>
-          <h4>Reciclaje y Actualización</h4>
-          <div class="ac-card-tag">Agentes en Actividad</div>
+          <div class="ac-course-card-header">
+            <div class="ac-course-card-icon"><i class="fa fa-refresh"></i></div>
+            <div><h4>Reciclaje y Actualización</h4><div class="ac-card-tag">Agentes en Actividad</div></div>
+          </div>
           <p>Programas de actualización para agentes activos. Nuevas técnicas, normativas vigentes y práctica intensiva.</p>
           <ul class="ac-course-checklist">
             <li><i class="fa fa-check-circle"></i> Nuevas normativas legales</li>
@@ -582,56 +648,58 @@
     </div>
   </section>
 
-  <!-- INFO -->
-  <section class="ac-info">
+  <!-- TESTIMONIOS -->
+  <section class="ac-testimonials">
     <div class="container">
-      <div class="ac-info-grid">
-        <div class="ac-info-text">
-          <div class="ac-section-label">Sobre BZ Academia</div>
-          <h2>Formación que<br>marca la diferencia</h2>
-          <p>BZ Academia es el brazo de capacitación de BZ Seguridad Privada. Formamos a los profesionales que luego integran nuestros equipos operativos y prestan servicios a nuestros clientes.</p>
-          <p>Contamos con instructores con trayectoria en fuerzas de seguridad y más de 15 años de experiencia en el sector privado.</p>
-          <ul class="ac-checklist">
-            <li><i class="fa fa-check-circle"></i> Capacitación táctica y operativa</li>
-            <li><i class="fa fa-check-circle"></i> Protocolo de uso de la fuerza</li>
-            <li><i class="fa fa-check-circle"></i> Manejo defensivo y custodia móvil</li>
-            <li><i class="fa fa-check-circle"></i> Seguridad electrónica y monitoreo</li>
-            <li><i class="fa fa-check-circle"></i> Primeros auxilios y emergencias</li>
-          </ul>
-          <a href="https://wa.me/5491100000000?text=Hola%2C%20quisiera%20inscribirme%20en%20BZ%20Academia" target="_blank" class="ac-btn-primary">
-            <i class="fa fa-whatsapp"></i> Consultar Inscripción
-          </a>
-        </div>
-        <div class="ac-info-cards">
-          <div class="ac-info-card">
-            <div class="ac-info-card-head">
-              <i class="fa fa-graduation-cap"></i>
-              <h5>Cursos Iniciales</h5>
-            </div>
-            <p>Formación básica para nuevos agentes. Desde cero hasta habilitación operativa con acompañamiento personalizado.</p>
+      <div class="ac-testimonials-header">
+        <div class="ac-section-label">Lo que dicen nuestros alumnos</div>
+        <h2>Testimonios de <span style="color:rgba(255,255,255,0.35)">Clientes</span></h2>
+        <p>Profesionales formados en BZ Academia que hoy integran los mejores equipos del sector.</p>
+      </div>
+      <div class="ac-testi-grid">
+
+        <div class="ac-testi-card">
+          <div class="ac-testi-stars">
+            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
           </div>
-          <div class="ac-info-card">
-            <div class="ac-info-card-head">
-              <i class="fa fa-refresh"></i>
-              <h5>Actualización y Reciclaje</h5>
+          <blockquote>"La formación en Custodia VIP fue de un nivel que no esperaba. Los instructores tienen experiencia real en el campo, no solo teoría."</blockquote>
+          <div class="ac-testi-author">
+            <div class="ac-testi-avatar"><i class="fa fa-user"></i></div>
+            <div>
+              <div class="ac-testi-name">Rodrigo M.</div>
+              <div class="ac-testi-role">Agente de Custodia VIP</div>
             </div>
-            <p>Programas de actualización para agentes en actividad. Nuevas técnicas, normativas vigentes y práctica intensiva.</p>
-          </div>
-          <div class="ac-info-card">
-            <div class="ac-info-card-head">
-              <i class="fa fa-star"></i>
-              <h5>Custodia VIP</h5>
-            </div>
-            <p>Entrenamiento especializado para custodia de personas de alto perfil. Protocolos internacionales y trabajo en equipo.</p>
-          </div>
-          <div class="ac-info-card">
-            <div class="ac-info-card-head">
-              <i class="fa fa-laptop"></i>
-              <h5>Seguridad Electrónica</h5>
-            </div>
-            <p>Operación de sistemas CCTV, alarmas y control de accesos. Formación teórico-práctica con equipos reales.</p>
           </div>
         </div>
+
+        <div class="ac-testi-card">
+          <div class="ac-testi-stars">
+            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+          </div>
+          <blockquote>"Hice el curso de Seguridad Electrónica y en dos meses ya estaba trabajando. La práctica con equipos reales marca la diferencia."</blockquote>
+          <div class="ac-testi-author">
+            <div class="ac-testi-avatar"><i class="fa fa-user"></i></div>
+            <div>
+              <div class="ac-testi-name">Luciana P.</div>
+              <div class="ac-testi-role">Técnica en Seguridad Electrónica</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ac-testi-card">
+          <div class="ac-testi-stars">
+            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+          </div>
+          <blockquote>"El curso inicial me dio todas las herramientas para ingresar al sector. Metodología clara, grupos reducidos y mucha práctica operativa."</blockquote>
+          <div class="ac-testi-author">
+            <div class="ac-testi-avatar"><i class="fa fa-user"></i></div>
+            <div>
+              <div class="ac-testi-name">Carlos E.</div>
+              <div class="ac-testi-role">Agente de Seguridad Privada</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
