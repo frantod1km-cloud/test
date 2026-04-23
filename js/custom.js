@@ -52,10 +52,7 @@ $(".client_owl-carousel").owlCarousel({
     navText: [],
     autoplay: true,
     autoplayHoverPause: true,
-    navText: [
-        '<i class="fa fa-angle-left" aria-hidden="true"></i>',
-        '<i class="fa fa-angle-right" aria-hidden="true"></i>'
-    ],
+    navText: ['&#8249;', '&#8250;'],
     responsive: {
         0: {
             items: 1
