@@ -46,22 +46,15 @@ function myMap() {
 // client section owl carousel
 $(".client_owl-carousel").owlCarousel({
     loop: true,
-    margin: 0,
-    dots: false,
-    nav: true,
-    navText: [],
+    margin: 20,
+    dots: true,
+    nav: false,
     autoplay: true,
+    autoplayTimeout: 4000,
     autoplayHoverPause: true,
-    navText: ['&#8249;', '&#8250;'],
     responsive: {
-        0: {
-            items: 1
-        },
-        768: {
-            items: 2
-        },
-        1000: {
-            items: 2
-        }
+        0: { items: 1 },
+        768: { items: 2 },
+        1000: { items: 2 }
     }
 });
