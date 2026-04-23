@@ -204,6 +204,26 @@
       color: rgba(255,255,255,0.4); letter-spacing: 1px;
     }
 
+    /* LIGHTBOX */
+    .ac-lightbox {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.92); align-items: center; justify-content: center;
+    }
+    .ac-lightbox.open { display: flex; }
+    .ac-lightbox img {
+      max-width: 90vw; max-height: 90vh;
+      object-fit: contain; border-radius: 4px;
+      box-shadow: 0 0 60px rgba(0,0,0,0.8);
+    }
+    .ac-lightbox-close {
+      position: absolute; top: 20px; right: 28px;
+      font-size: 36px; color: rgba(255,255,255,0.7);
+      cursor: pointer; line-height: 1; background: none; border: none;
+      transition: color 0.2s;
+    }
+    .ac-lightbox-close:hover { color: #fff; }
+    .ac-card { cursor: zoom-in; }
+
     /* INFO SECTION */
     .ac-info {
       background: #000;
@@ -434,7 +454,7 @@
   <section class="ac-hero">
     <div class="container">
       <div class="ac-hero-label">Formación Profesional</div>
-      <h1>Academia de Seguridad:<br><em>Clases Profesionales</em></h1>
+      <h1>Academia de Seguridad<br><br><em>Clases Profesionales</em></h1>
       <p>Capacitación de alto nivel para agentes de seguridad privada. Entrenamiento práctico, instructores certificados y metodología de primer nivel.</p>
       <div class="ac-hero-btns">
         <a href="https://wa.me/5491100000000?text=Hola%2C%20quisiera%20inscribirme%20en%20BZ%20Academia" target="_blank" class="ac-btn-primary">
@@ -639,8 +659,6 @@
   <!-- GALLERY -->
   <section class="ac-gallery" id="galeria">
     <div class="container">
-      <div class="ac-section-label">Instalaciones y Actividades</div>
-      <div class="ac-section-title">Nuestra <span>Galería</span></div>
       <div class="ac-grid">
         <div class="ac-card">
           <img src="images/a1.jpeg" alt="BZ Academia">
@@ -765,6 +783,12 @@
     </div>
   </section>
 
+  <!-- LIGHTBOX -->
+  <div class="ac-lightbox" id="acLightbox">
+    <button class="ac-lightbox-close" id="acLightboxClose">&times;</button>
+    <img id="acLightboxImg" src="" alt="">
+  </div>
+
   <!-- FOOTER -->
   <footer class="ac-footer">
     <div class="container">
@@ -789,6 +813,19 @@
     document.getElementById('acHamburger').addEventListener('click', function(){
       document.getElementById('acMenu').classList.toggle('open');
     });
+
+    // Lightbox
+    var lb = document.getElementById('acLightbox');
+    var lbImg = document.getElementById('acLightboxImg');
+    document.querySelectorAll('.ac-card').forEach(function(card){
+      card.addEventListener('click', function(){
+        lbImg.src = card.querySelector('img').src;
+        lb.classList.add('open');
+      });
+    });
+    document.getElementById('acLightboxClose').addEventListener('click', function(){ lb.classList.remove('open'); });
+    lb.addEventListener('click', function(e){ if(e.target === lb) lb.classList.remove('open'); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') lb.classList.remove('open'); });
   </script>
 </body>
 </html>
