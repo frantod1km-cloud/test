@@ -430,3 +430,7 @@ footer .footer-info p a { color: var(--bz-silver-light); }
 .client_owl-carousel .owl-dots { text-align: center; margin-top: 20px; }
 .client_owl-carousel .owl-dot span { width: 10px; height: 10px; background: rgba(255,255,255,0.3) !important; border-radius: 50%; display: inline-block; margin: 0 4px; transition: background 0.3s; }
 .client_owl-carousel .owl-dot.active span { background: #fff !important; }
+
+/* Kill all OWL nav diamonds site-wide */
+.owl-nav { display: none !important; }
+.owl-nav button, .owl-prev, .owl-next { display: none !important; }
