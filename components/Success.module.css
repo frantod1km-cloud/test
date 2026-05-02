@@ -1,0 +1,8 @@
+.wrap { text-align: center; padding: 2rem 1rem; }
+.icon { font-size: 4rem; margin-bottom: 1rem; }
+.title { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: .5rem; }
+.text { color: var(--muted); font-size: .9rem; line-height: 1.6; margin-bottom: 1rem; }
+.orderId { background: var(--bg); border-radius: 8px; padding: 10px; margin: 1rem auto; font-family: monospace; font-size: .85rem; color: var(--accent); letter-spacing: .05em; display: inline-block; }
+.sub { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+.btn { width: 100%; padding: 14px; background: var(--text); color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: 500; cursor: pointer; margin-top: 1.5rem; transition: opacity .15s; }
+.btn:hover { opacity: .85; }
