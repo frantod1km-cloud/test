@@ -9,17 +9,15 @@ export default function Navbar({ cartCount, onCartClick }) {
 
   return (
     <div className={styles.navWrap}>
-
-      {/* FILA 1: Logo | Buscador | Promo */}
       <div className={styles.topRow}>
 
-        {/* LOGO + Enviar a */}
+        {/* LOGO + Enviar a (sin ícono pin) */}
         <div className={styles.logoCol}>
           <div className={styles.logo}>
             <div className={styles.logoIconWrap}>
               <svg viewBox="0 0 48 48" className={styles.logoSvg} xmlns="http://www.w3.org/2000/svg">
                 <circle cx="24" cy="24" r="23" fill="#fff" stroke="#e0e0e0" strokeWidth="1"/>
-                <text x="24" y="30" textAnchor="middle" fontSize="22" fill="#3483fa">🤝</text>
+                <text x="24" y="30" textAnchor="middle" fontSize="22">🤝</text>
               </svg>
             </div>
             <div className={styles.logoText}>
@@ -28,15 +26,14 @@ export default function Navbar({ cartCount, onCartClick }) {
             </div>
           </div>
           <div className={styles.enviarA}>
-            <svg width="12" height="14" viewBox="0 0 12 16" fill="none"><path d="M6 0C3.24 0 1 2.24 1 5c0 4 5 10 5 10s5-6 5-10c0-2.76-2.24-5-5-5zm0 7.5C4.62 7.5 3.5 6.38 3.5 5s1.12-2.5 2.5-2.5S8.5 3.62 8.5 5 7.38 7.5 6 7.5z" fill="#3483fa"/></svg>
             <div>
               <div className={styles.enviarLabel}>Enviar a</div>
-              <div className={styles.enviarCity}>Buenos Aires</div>
+              <div className={styles.enviarCity}>Buenos Aires 1629</div>
             </div>
           </div>
         </div>
 
-        {/* BUSCADOR */}
+        {/* BUSCADOR + MENÚ debajo */}
         <div className={styles.searchCol}>
           <div className={styles.searchWrap}>
             <input
@@ -52,8 +49,6 @@ export default function Navbar({ cartCount, onCartClick }) {
               </svg>
             </button>
           </div>
-
-          {/* FILA 2 alineada exactamente bajo el buscador */}
           <div className={styles.bottomRow}>
             <div className={styles.menuRow}>
               {MENUS.map(m => (
