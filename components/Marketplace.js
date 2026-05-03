@@ -3,13 +3,14 @@ import { useState, useCallback, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import styles from './Marketplace.module.css'
 
-import Navbar      from './Navbar'
-import Banner      from './Banner'
-import ProductGrid from './ProductGrid'
-import Drawer      from './Drawer'
-import CartView    from './CartView'
-import Checkout    from './Checkout'
-import Success     from './Success'
+import Navbar       from './Navbar'
+import Banner       from './Banner'
+import QuickAccess  from './QuickAccess'
+import ProductGrid  from './ProductGrid'
+import Drawer       from './Drawer'
+import CartView     from './CartView'
+import Checkout     from './Checkout'
+import Success      from './Success'
 
 const CATS = ['Todos', 'Cocina', 'Tecnología', 'Hogar', 'Moda', 'Electrónica', 'Deportes', 'Juguetes', 'Otros']
 
@@ -56,6 +57,7 @@ export default function Marketplace() {
     <>
       <Navbar cartCount={cartCount} onCartClick={openCart} />
       <Banner />
+      <QuickAccess onFilter={setCategory} />
 
       <div className={styles.filtersWrap}>
         <div className={styles.filters}>
