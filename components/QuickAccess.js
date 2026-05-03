@@ -5,98 +5,91 @@ const CARDS = [
   {
     title: 'Envío gratis',
     desc: 'Beneficio por ser tu primera compra.',
-    icon: '📦',
+    img: 'https://http2.mlstatic.com/frontend-assets/homes-palermo-statics/1.0.0-beta.29/home/envio-gratis.webp',
     btn: 'Mostrar productos',
     cat: 'Todos',
   },
   {
     title: 'Medios de pago',
     desc: 'Pagá tus compras de forma rápida y segura.',
-    icon: '💳',
+    img: 'https://http2.mlstatic.com/frontend-assets/homes-palermo-statics/1.0.0-beta.29/home/medios-de-pago.webp',
     btn: 'Conocer medios de pago',
     cat: null,
   },
   {
     title: 'Menos de $20.000',
     desc: 'Descubrí productos con precios bajos.',
-    icon: '💰',
+    img: 'https://http2.mlstatic.com/frontend-assets/homes-palermo-statics/1.0.0-beta.29/home/menos-de-20000.webp',
     btn: 'Mostrar productos',
     cat: 'Todos',
   },
   {
     title: 'Más vendidos',
     desc: 'Explorá los productos que son tendencia.',
-    icon: '🏆',
+    img: 'https://http2.mlstatic.com/frontend-assets/homes-palermo-statics/1.0.0-beta.29/home/mas-vendidos.webp',
     btn: 'Ir a Más vendidos',
     cat: 'Todos',
   },
   {
     title: 'Tecnología',
     desc: 'Los mejores gadgets y electrónicos.',
-    icon: '💻',
+    img: 'https://http2.mlstatic.com/frontend-assets/homes-palermo-statics/1.0.0-beta.29/home/supermercado.webp',
     btn: 'Ver tecnología',
     cat: 'Tecnología',
   },
   {
     title: 'Hogar',
     desc: 'Todo para decorar y equipar tu casa.',
-    icon: '🏠',
+    img: 'https://http2.mlstatic.com/frontend-assets/homes-palermo-statics/1.0.0-beta.29/home/moda.webp',
     btn: 'Ver hogar',
     cat: 'Hogar',
   },
 ]
 
-const PROMO_BANNERS = [
-  {
-    tag: 'TECNO OFERTAS',
-    title: '¡HASTA 35% OFF Y\n12X SIN INTERÉS!',
-    link: 'Ver ofertas',
-    bg: '#000',
-    color: '#fff',
-    emoji: '📱',
-  },
-  {
-    tag: 'RENOVÁ TU COCINA',
-    title: 'DISEÑO FUNCIONAL\nY PRÁCTICO',
-    link: 'Ver ofertas',
-    bg: '#1a237e',
-    color: '#fff',
-    emoji: '🍳',
-  },
-]
+// Fallback emojis 3D in case external images fail
+const FALLBACK = ['📦','💳','💰','🏆','💻','🏠']
 
 export default function QuickAccess({ onFilter }) {
   return (
     <div className={styles.wrap}>
-      {/* TARJETAS DE ACCESO RÁPIDO */}
       <div className={styles.cards}>
         {CARDS.map((c, i) => (
           <div key={i} className={styles.card}>
-            <div className={styles.cardIcon}>{c.icon}</div>
             <div className={styles.cardTitle}>{c.title}</div>
+            <div className={styles.cardImgWrap}>
+              <img
+                src={c.img}
+                alt={c.title}
+                className={styles.cardImg}
+                onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex' }}
+              />
+              <div className={styles.cardEmoji} style={{display:'none'}}>{FALLBACK[i]}</div>
+            </div>
             <div className={styles.cardDesc}>{c.desc}</div>
-            <button
-              className={styles.cardBtn}
-              onClick={() => c.cat && onFilter(c.cat)}
-            >
+            <button className={styles.cardBtn} onClick={() => c.cat && onFilter(c.cat)}>
               {c.btn}
             </button>
           </div>
         ))}
       </div>
 
-      {/* BANNERS PROMO */}
       <div className={styles.promos}>
-        {PROMO_BANNERS.map((b, i) => (
-          <div key={i} className={styles.promo} style={{ background: b.bg, color: b.color }}>
-            <div className={styles.promoText}>
-              <div className={styles.promoTag}>{b.tag}</div>
-              <div className={styles.promoTitle}>{b.title}</div>
-              <div className={styles.promoLink}>{b.link}</div>
-            </div>
-            <div className={styles.promoEmoji}>{b.emoji}</div>
+        <div className={styles.promo} style={{background:'#000'}}>
+          <div className={styles.promoText}>
+            <div className={styles.promoTag}>TECNO OFERTAS</div>
+            <div className={styles.promoTitle}>¡HASTA 35% OFF Y{'\n'}12X SIN INTERÉS!</div>
+            <div className={styles.promoLink}>Ver ofertas</div>
           </div>
-        ))}
+          <div className={styles.promoEmoji} style={{fontSize:'6rem'}}>📱</div>
+        </div>
+        <div className={styles.promo} style={{background:'#1a237e'}}>
+          <div className={styles.promoText}>
+            <div className={styles.promoTag}>RENOVÁ TU COCINA</div>
+            <div className={styles.promoTitle}>DISEÑO FUNCIONAL{'\n'}Y PRÁCTICO</div>
+            <div className={styles.promoLink}>Ver ofertas</div>
+          </div>
+          <div className={styles.promoEmoji} style={{fontSize:'6rem'}}>🍳</div>
+        </div>
       </div>
     </div>
   )

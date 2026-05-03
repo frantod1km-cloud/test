@@ -7,7 +7,6 @@
   gap: 1rem;
 }
 
-/* TARJETAS */
 .cards {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -24,33 +23,65 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
   transition: box-shadow .2s;
-  min-height: 200px;
+  overflow: hidden;
 }
 .card:hover { box-shadow: 0 4px 14px rgba(0,0,0,.1); }
 
-.cardTitle { font-size: .9rem; font-weight: 600; color: #333; line-height: 1.2; order: -1; }
-.cardIcon  { font-size: 3rem; margin: 6px 0; flex: 1; display: flex; align-items: center; }
-.cardDesc  { font-size: .78rem; color: #666; line-height: 1.4; }
+.cardTitle {
+  font-size: .9rem;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.cardImgWrap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  margin-bottom: 8px;
+}
+.cardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.cardEmoji {
+  font-size: 3.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardDesc {
+  font-size: .78rem;
+  color: #666;
+  line-height: 1.4;
+  flex: 1;
+  margin-bottom: 10px;
+}
 
 .cardBtn {
-  margin-top: 10px;
   background: #fff;
   border: 1px solid #3483fa;
   color: #3483fa;
   font-size: .78rem;
   font-weight: 500;
   cursor: pointer;
-  padding: 7px 14px;
+  padding: 7px 12px;
   border-radius: 6px;
   width: 100%;
   text-align: center;
   transition: background .15s, color .15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .cardBtn:hover { background: #3483fa; color: #fff; }
 
-/* PROMO BANNERS */
+/* PROMOS */
 .promos {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -60,16 +91,17 @@
 
 .promo {
   border-radius: 6px;
-  padding: 1.5rem 1.5rem;
+  padding: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   min-height: 140px;
   overflow: hidden;
   position: relative;
+  color: #fff;
 }
 .promoText { display: flex; flex-direction: column; gap: 6px; z-index: 1; }
-.promoTag  { font-size: .7rem; font-weight: 600; opacity: .75; letter-spacing: .06em; text-transform: uppercase; }
-.promoTitle { font-size: 1.2rem; font-weight: 700; line-height: 1.25; white-space: pre-line; }
+.promoTag  { font-size: .7rem; font-weight: 600; opacity: .8; letter-spacing: .06em; text-transform: uppercase; }
+.promoTitle { font-size: 1.15rem; font-weight: 700; line-height: 1.25; white-space: pre-line; }
 .promoLink  { font-size: .8rem; text-decoration: underline; opacity: .85; cursor: pointer; margin-top: 4px; }
-.promoEmoji { font-size: 5rem; opacity: .25; position: absolute; right: 1.5rem; bottom: -.5rem; }
+.promoEmoji { opacity: .2; position: absolute; right: 1rem; bottom: -1rem; }
