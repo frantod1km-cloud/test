@@ -1,46 +1,50 @@
-/* ── BARRA PRINCIPAL ── */
+.navWrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
 .nav {
   background: #ffe600;
   padding: 0 1.5rem;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 1rem;
-  height: 56px;
-  z-index: 100;
+  min-height: 56px;
 }
 
 /* LOGO */
-.logo { flex-shrink: 0; }
-.logoBox {
+.logo {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   line-height: 1.1;
+  flex-shrink: 0;
 }
 .logoTop {
-  font-size: 1rem;
+  font-size: .95rem;
   font-weight: 800;
   color: #333;
   letter-spacing: -.3px;
 }
 .logoChucu {
-  font-size: .75rem;
+  font-size: .72rem;
   font-weight: 600;
   color: #3483fa;
-  letter-spacing: -.2px;
 }
 
 /* BUSCADOR */
 .searchWrap {
-  flex: 1;
-  max-width: 680px;
   display: flex;
   align-items: stretch;
   background: #fff;
   border-radius: 2px;
   overflow: hidden;
-  border: 1.5px solid #ffe600;
-  box-shadow: 0 1px 4px rgba(0,0,0,.15);
+  border: 1px solid rgba(0,0,0,.15);
+  max-width: 640px;
+  width: 100%;
 }
 .searchInput {
   flex: 1;
@@ -49,67 +53,64 @@
   padding: 0 14px;
   font-size: 15px;
   color: #333;
-  height: 40px;
+  height: 38px;
   background: transparent;
 }
+/* SIN fondo amarillo — solo el ícono sobre blanco */
 .searchBtn {
-  background: #ffe600;
+  background: transparent;
   border: none;
-  border-left: 1.5px solid #d4c000;
-  padding: 0 16px;
+  border-left: 1px solid #eee;
+  padding: 0 14px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 38px;
   transition: background .15s;
-  height: 40px;
-  min-width: 48px;
 }
-.searchBtn:hover { background: #f5d800; }
+.searchBtn:hover { background: #f5f5f5; }
 
-/* ── BARRA INFERIOR (menú + cuenta + carrito) ── */
-.menuBar {
-  background: #ffe600;
-  border-bottom: 1px solid #d4c000;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 4px rgba(0,0,0,.1);
-}
-.menuInner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
+/* MENÚ ROW */
+.menuRow {
   display: flex;
   align-items: center;
   gap: 0;
   overflow-x: auto;
+  white-space: nowrap;
 }
-.menuInner::-webkit-scrollbar { display: none; }
+.menuRow::-webkit-scrollbar { display: none; }
+
 .menuItem {
   text-decoration: none;
   color: #333;
   font-size: 13px;
   font-weight: 500;
-  padding: 9px 14px;
+  padding: 18px 10px;
   white-space: nowrap;
-  transition: color .15s;
-  display: block;
   border-bottom: 2px solid transparent;
+  display: block;
+  transition: color .15s, border-color .15s;
 }
 .menuItem:hover { color: #3483fa; border-bottom-color: #3483fa; }
 
-.menuSpacer { flex: 1; }
+.divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(0,0,0,.15);
+  margin: 0 8px;
+  flex-shrink: 0;
+}
 
 .navLink {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   text-decoration: none;
   color: #333;
   font-size: 13px;
   font-weight: 500;
-  padding: 9px 10px;
+  padding: 18px 10px;
   white-space: nowrap;
   transition: color .15s;
 }
@@ -119,7 +120,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px 10px;
+  padding: 18px 10px;
   position: relative;
   color: #333;
   display: flex;
@@ -127,22 +128,23 @@
   gap: 5px;
   font-size: 13px;
   font-weight: 500;
+  white-space: nowrap;
   transition: color .15s;
 }
 .cartBtn:hover { color: #3483fa; }
 .cartIcon { position: relative; display: flex; align-items: center; }
 .cartBadge {
   position: absolute;
-  top: -6px;
-  right: -8px;
+  top: -7px;
+  right: -9px;
   background: #3483fa;
   color: #fff;
   border-radius: 50%;
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
 }
