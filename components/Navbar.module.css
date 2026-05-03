@@ -1,95 +1,155 @@
+/* ── BARRA PRINCIPAL ── */
 .nav {
   background: #fff159;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   display: flex;
   align-items: center;
   gap: 1rem;
-  height: 56px;
+  height: 60px;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 1px 4px rgba(0,0,0,.12);
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
 }
 
-.logo {
+/* LOGO */
+.logo { flex-shrink: 0; }
+.logoBox {
   display: flex;
-  align-items: center;
-  font-weight: 800;
-  font-size: 1.1rem;
-  color: #333;
-  flex-shrink: 0;
-  letter-spacing: -.5px;
-}
-.logoIcon {
-  background: #3483fa;
-  color: #fff;
-  border-radius: 6px;
-  padding: 2px 7px;
-  margin-right: 6px;
-  font-size: .95rem;
-}
-
-.searchWrap {
-  flex: 1;
-  max-width: 660px;
-  display: flex;
+  flex-direction: column;
   align-items: center;
   background: #fff;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 4px 10px;
+  line-height: 1;
+  box-shadow: 0 1px 3px rgba(0,0,0,.15);
+}
+.logoTop {
+  font-size: .85rem;
+  font-weight: 700;
+  color: #333;
+  letter-spacing: -.3px;
+}
+.logoChucu {
+  font-size: .75rem;
+  font-weight: 600;
+  color: #3483fa;
+  letter-spacing: -.2px;
+}
+
+/* BUSCADOR */
+.searchWrap {
+  flex: 1;
+  max-width: 680px;
+  display: flex;
+  align-items: stretch;
+  background: #fff;
+  border-radius: 2px;
   overflow: hidden;
-  box-shadow: 0 1px 2px rgba(0,0,0,.08);
+  box-shadow: 0 1px 2px rgba(0,0,0,.12);
+  border: 1px solid rgba(0,0,0,.1);
 }
 .searchInput {
   flex: 1;
   border: none;
   outline: none;
-  padding: 10px 14px;
+  padding: 0 14px;
   font-size: 15px;
   color: #333;
+  height: 40px;
   background: transparent;
 }
 .searchBtn {
   background: #ffe600;
   border: none;
-  border-left: 1px solid #ddd;
+  border-left: 1px solid rgba(0,0,0,.08);
   padding: 0 16px;
-  height: 40px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  font-size: 1.1rem;
-  transition: background .15s;
-}
-.searchBtn:hover { background: #f0d800; }
-
-.cartBtn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #3483fa;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: background .15s;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.cartBtn:hover { background: #2968c8; }
-
-.count {
-  background: #fff;
-  color: #3483fa;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background .15s;
+  height: 40px;
+}
+.searchBtn:hover { background: #f5d800; }
+
+/* DERECHA */
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.navLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-decoration: none;
+  color: #333;
   font-size: 11px;
+  font-weight: 500;
+  transition: color .15s;
+}
+.navLink:hover { color: #3483fa; }
+
+/* CARRITO */
+.cartBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  position: relative;
+  color: #333;
+  transition: color .15s;
+}
+.cartBtn:hover { color: #3483fa; }
+.cartIcon { position: relative; display: flex; }
+.cartBadge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #3483fa;
+  color: #fff;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
   font-weight: 700;
+}
+
+/* ── BARRA DE MENÚS ── */
+.menuBar {
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 60px;
+  z-index: 99;
+}
+.menuInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+}
+.menuInner::-webkit-scrollbar { display: none; }
+.menuItem {
+  text-decoration: none;
+  color: #333;
+  font-size: 13.5px;
+  padding: 10px 14px;
+  white-space: nowrap;
+  transition: color .15s, border-bottom .15s;
+  border-bottom: 2px solid transparent;
+  display: block;
+}
+.menuItem:hover {
+  color: #3483fa;
+  border-bottom-color: #3483fa;
 }
