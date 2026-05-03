@@ -6,61 +6,55 @@ const MENUS = ['Categorías', 'Ofertas', 'Cupones', 'Supermercado', 'Moda', 'Ven
 
 export default function Navbar({ cartCount, onCartClick }) {
   const [q, setQ] = useState('')
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <div className={styles.navWrap}>
-      <div className={styles.topRow}>
+    <>
+      <div className={styles.navWrap}>
 
-        {/* LOGO + Enviar a (sin ícono pin) */}
-        <div className={styles.logoCol}>
-          <div className={styles.logo}>
-            <div className={styles.logoIconWrap}>
-              <svg viewBox="0 0 48 48" className={styles.logoSvg} xmlns="http://www.w3.org/2000/svg">
-                <circle cx="24" cy="24" r="23" fill="#fff" stroke="#e0e0e0" strokeWidth="1"/>
-                <text x="24" y="30" textAnchor="middle" fontSize="22">🤝</text>
-              </svg>
+        {/* ── DESKTOP: fila completa ── */}
+        <div className={styles.topRow}>
+          {/* LOGO */}
+          <div className={styles.logoCol}>
+            <div className={styles.logo}>
+              <div className={styles.logoIconWrap}>
+                <svg viewBox="0 0 48 48" className={styles.logoSvg} xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="24" cy="24" r="23" fill="#fff" stroke="#e0e0e0" strokeWidth="1"/>
+                  <text x="24" y="30" textAnchor="middle" fontSize="22">🤝</text>
+                </svg>
+              </div>
+              <div className={styles.logoText}>
+                <span className={styles.logoTop}>mercado</span>
+                <span className={styles.logoChucu}>Chucu</span>
+              </div>
             </div>
-            <div className={styles.logoText}>
-              <span className={styles.logoTop}>mercado</span>
-              <span className={styles.logoChucu}>Chucu</span>
+            <div className={styles.enviarA}>
+              <div>
+                <div className={styles.enviarLabel}>Enviar a</div>
+                <div className={styles.enviarCity}>Buenos Aires 1629</div>
+              </div>
             </div>
           </div>
-          <div className={styles.enviarA}>
-            <div>
-              <div className={styles.enviarLabel}>Enviar a</div>
-              <div className={styles.enviarCity}>Buenos Aires 1629</div>
-            </div>
-          </div>
-        </div>
 
-        {/* BUSCADOR + MENÚ debajo */}
-        <div className={styles.searchCol}>
-          <div className={styles.searchWrap}>
-            <input
-              className={styles.searchInput}
-              type="text"
-              placeholder="Buscar productos, marcas y más..."
-              value={q}
-              onChange={e => setQ(e.target.value)}
-            />
-            <button className={styles.searchBtn} aria-label="Buscar">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-              </svg>
-            </button>
-          </div>
-          <div className={styles.bottomRow}>
-            <div className={styles.menuRow}>
-              {MENUS.map(m => (
-                <a key={m} href="#" className={styles.menuItem}>{m}</a>
-              ))}
+          {/* BUSCADOR + MENÚ */}
+          <div className={styles.searchCol}>
+            <div className={styles.searchWrap}>
+              <input className={styles.searchInput} type="text" placeholder="Buscar productos, marcas y más..." value={q} onChange={e => setQ(e.target.value)} />
+              <button className={styles.searchBtn}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+              </button>
+            </div>
+            <div className={styles.bottomRow}>
+              <div className={styles.menuRow}>
+                {MENUS.map(m => <a key={m} href="#" className={styles.menuItem}>{m}</a>)}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* PROMO + CUENTA */}
-        <div className={styles.rightCol}>
-          <div className={styles.promoAndAccount}>
+          {/* PROMO + CUENTA */}
+          <div className={styles.rightCol}>
             <div className={styles.promoBox}>
               Suscribite a <span className={styles.promoTag}>Chucu+</span>
             </div>
@@ -71,8 +65,7 @@ export default function Navbar({ cartCount, onCartClick }) {
                 <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#333" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
               <a href="#" className={styles.iconLink}>Mis compras</a>
-              <a href="#" className={styles.iconLink}>
-                Favoritos
+              <a href="#" className={styles.iconLink}>Favoritos
                 <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#333" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
               <button className={styles.iconBtn}>
@@ -93,7 +86,46 @@ export default function Navbar({ cartCount, onCartClick }) {
           </div>
         </div>
 
+        {/* ── MOBILE: barra compacta ── */}
+        <div className={styles.mobileRow}>
+          <div className={styles.mobileLogo}>
+            <svg viewBox="0 0 48 48" className={styles.mobileLogoSvg}>
+              <circle cx="24" cy="24" r="23" fill="#fff" stroke="#e0e0e0" strokeWidth="1"/>
+              <text x="24" y="30" textAnchor="middle" fontSize="22">🤝</text>
+            </svg>
+          </div>
+          <div className={styles.mobileSearch}>
+            <input className={styles.mobileInput} type="text" placeholder="Estoy buscando..." value={q} onChange={e => setQ(e.target.value)} />
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{position:'absolute',right:10,top:'50%',transform:'translateY(-50%)'}}>
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+          <button className={styles.mobileIconBtn} onClick={() => setMenuOpen(v => !v)}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2" strokeLinecap="round">
+              <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <button className={styles.mobileIconBtn} onClick={onCartClick}>
+            <div className={styles.cartIcon}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              {cartCount > 0 && <span className={styles.cartBadge}>{cartCount}</span>}
+            </div>
+          </button>
+        </div>
+
       </div>
-    </div>
+
+      {/* MENÚ MÓVIL DESPLEGABLE */}
+      {menuOpen && (
+        <div className={styles.mobileMenu}>
+          <a href="/admin/login" className={styles.mobileMenuItem}>👤 Mi cuenta</a>
+          <a href="#" className={styles.mobileMenuItem}>🛍 Mis compras</a>
+          {MENUS.map(m => <a key={m} href="#" className={styles.mobileMenuItem}>{m}</a>)}
+        </div>
+      )}
+    </>
   )
 }

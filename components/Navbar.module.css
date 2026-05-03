@@ -4,6 +4,7 @@
   top: 0;
   z-index: 100;
   box-shadow: 0 2px 6px rgba(0,0,0,.12);
+  position: relative;
 }
 
 .topRow {
@@ -207,4 +208,77 @@
   width: 16px; height: 16px;
   display: flex; align-items: center; justify-content: center;
   font-size: 9px; font-weight: 700;
+}
+
+/* ══════════════════════════════
+   MOBILE — ocultar desktop
+══════════════════════════════ */
+.mobileRow  { display: none; }
+.mobileMenu { display: none; }
+
+@media (max-width: 768px) {
+  /* ocultar todo lo de desktop */
+  .topRow { display: none; }
+
+  /* mostrar barra móvil */
+  .mobileRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+  }
+
+  .mobileLogo { flex-shrink: 0; }
+  .mobileLogoSvg { width: 34px; height: 34px; }
+
+  .mobileSearch {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .mobileInput {
+    width: 100%;
+    border: 1px solid rgba(0,0,0,.12);
+    border-radius: 4px;
+    padding: 7px 32px 7px 12px;
+    font-size: 14px;
+    background: #fff;
+    outline: none;
+    color: #333;
+  }
+
+  .mobileIconBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  /* menú desplegable */
+  .mobileMenu {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-top: 1px solid #eee;
+    box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 200;
+  }
+  .mobileMenuItem {
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    padding: 14px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    display: block;
+    transition: background .15s;
+  }
+  .mobileMenuItem:hover { background: #f5f5f5; }
 }

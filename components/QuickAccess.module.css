@@ -105,3 +105,11 @@
 .promoTitle { font-size: 1.15rem; font-weight: 700; line-height: 1.25; white-space: pre-line; }
 .promoLink  { font-size: .8rem; text-decoration: underline; opacity: .85; cursor: pointer; margin-top: 4px; }
 .promoEmoji { opacity: .2; position: absolute; right: 1rem; bottom: -1rem; }
+
+@media (max-width: 768px) {
+  .wrap { padding: .75rem 12px; }
+  .cards { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .card { padding: .75rem; min-height: unset; }
+  .cardImgWrap { height: 80px; }
+  .promos { grid-template-columns: 1fr; }
+}
