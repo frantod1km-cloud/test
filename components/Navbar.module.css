@@ -1,18 +1,17 @@
 .navWrap {
+  background: #ffe600;
   position: sticky;
   top: 0;
   z-index: 100;
   box-shadow: 0 2px 4px rgba(0,0,0,.1);
 }
 
-.nav {
-  background: #ffe600;
-  padding: 0 1.5rem;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
+/* FILA ÚNICA con logo + columna central + derecha */
+.topRow {
+  display: flex;
+  align-items: flex-start;
   gap: 1rem;
-  min-height: 56px;
+  padding: 10px 1.5rem 0;
 }
 
 /* LOGO */
@@ -22,6 +21,8 @@
   align-items: flex-start;
   line-height: 1.1;
   flex-shrink: 0;
+  padding-top: 4px;
+  padding-bottom: 28px;
 }
 .logoTop {
   font-size: .95rem;
@@ -35,6 +36,15 @@
   color: #3483fa;
 }
 
+/* COLUMNA CENTRAL: buscador arriba, menú abajo */
+.centerCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
 /* BUSCADOR */
 .searchWrap {
   display: flex;
@@ -43,7 +53,6 @@
   border-radius: 2px;
   overflow: hidden;
   border: 1px solid rgba(0,0,0,.15);
-  max-width: 640px;
   width: 100%;
 }
 .searchInput {
@@ -56,7 +65,6 @@
   height: 38px;
   background: transparent;
 }
-/* SIN fondo amarillo — solo el ícono sobre blanco */
 .searchBtn {
   background: transparent;
   border: none;
@@ -71,13 +79,14 @@
 }
 .searchBtn:hover { background: #f5f5f5; }
 
-/* MENÚ ROW */
+/* MENÚ — debajo del buscador */
 .menuRow {
   display: flex;
   align-items: center;
   gap: 0;
   overflow-x: auto;
   white-space: nowrap;
+  margin-top: 2px;
 }
 .menuRow::-webkit-scrollbar { display: none; }
 
@@ -86,20 +95,24 @@
   color: #333;
   font-size: 13px;
   font-weight: 500;
-  padding: 18px 10px;
+  padding: 8px 12px 8px 0;
+  padding-right: 16px;
   white-space: nowrap;
-  border-bottom: 2px solid transparent;
   display: block;
-  transition: color .15s, border-color .15s;
+  transition: color .15s;
+  border-bottom: 2px solid transparent;
 }
+.menuItem:first-child { padding-left: 0; }
 .menuItem:hover { color: #3483fa; border-bottom-color: #3483fa; }
 
-.divider {
-  width: 1px;
-  height: 20px;
-  background: rgba(0,0,0,.15);
-  margin: 0 8px;
+/* DERECHA: cuenta + carrito — alineados verticalmente con el buscador */
+.rightCol {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   flex-shrink: 0;
+  padding-top: 4px;
+  padding-bottom: 28px;
 }
 
 .navLink {
@@ -110,9 +123,10 @@
   color: #333;
   font-size: 13px;
   font-weight: 500;
-  padding: 18px 10px;
+  padding: 6px 8px;
   white-space: nowrap;
   transition: color .15s;
+  border-radius: 4px;
 }
 .navLink:hover { color: #3483fa; }
 
@@ -120,8 +134,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 18px 10px;
-  position: relative;
+  padding: 6px 8px;
   color: #333;
   display: flex;
   align-items: center;
@@ -130,6 +143,7 @@
   font-weight: 500;
   white-space: nowrap;
   transition: color .15s;
+  border-radius: 4px;
 }
 .cartBtn:hover { color: #3483fa; }
 .cartIcon { position: relative; display: flex; align-items: center; }

@@ -9,36 +9,39 @@ export default function Navbar({ cartCount, onCartClick }) {
 
   return (
     <div className={styles.navWrap}>
-      {/* FILA ÚNICA: Logo + Buscador + Menús + Cuenta + Carrito */}
-      <nav className={styles.nav}>
-        {/* LOGO */}
+      {/* FILA 1: Logo + Buscador + Cuenta + Carrito */}
+      <div className={styles.topRow}>
         <div className={styles.logo}>
           <span className={styles.logoTop}>Mercado</span>
           <span className={styles.logoChucu}>Chucu</span>
         </div>
 
-        {/* BUSCADOR */}
-        <div className={styles.searchWrap}>
-          <input
-            className={styles.searchInput}
-            type="text"
-            placeholder="Buscar productos, marcas y más..."
-            value={q}
-            onChange={e => setQ(e.target.value)}
-          />
-          <button className={styles.searchBtn} aria-label="Buscar">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-          </button>
+        <div className={styles.centerCol}>
+          {/* BUSCADOR */}
+          <div className={styles.searchWrap}>
+            <input
+              className={styles.searchInput}
+              type="text"
+              placeholder="Buscar productos, marcas y más..."
+              value={q}
+              onChange={e => setQ(e.target.value)}
+            />
+            <button className={styles.searchBtn} aria-label="Buscar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </button>
+          </div>
+
+          {/* MENÚ — debajo del buscador, alineado a su borde izquierdo */}
+          <div className={styles.menuRow}>
+            {MENUS.map(m => (
+              <a key={m} href="#" className={styles.menuItem}>{m}</a>
+            ))}
+          </div>
         </div>
 
-        {/* MENÚS + CUENTA + CARRITO — todo en la misma fila */}
-        <div className={styles.menuRow}>
-          {MENUS.map(m => (
-            <a key={m} href="#" className={styles.menuItem}>{m}</a>
-          ))}
-          <div className={styles.divider} />
+        <div className={styles.rightCol}>
           <a href="/admin/login" className={styles.navLink}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
@@ -56,7 +59,7 @@ export default function Navbar({ cartCount, onCartClick }) {
             Carrito
           </button>
         </div>
-      </nav>
+      </div>
     </div>
   )
 }
