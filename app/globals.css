@@ -1,24 +1,24 @@
 :root {
-  --bg: #f7f4ef;
+  --bg: #ebebeb;
   --surface: #ffffff;
-  --text: #1a1714;
-  --muted: #7a7570;
-  --accent: #c8622a;
-  --accent-light: #f5ede6;
-  --border: #e8e3db;
-  --success: #2d6a4f;
-  --success-bg: #e8f5ee;
+  --text: #333333;
+  --muted: #666;
+  --accent: #3483fa;
+  --accent-hover: #2968c8;
+  --yellow: #fff159;
+  --border: #e0e0e0;
+  --success: #00a650;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
 }
 
 input, select, button, textarea {
-  font-family: 'DM Sans', sans-serif;
+  font-family: inherit;
 }

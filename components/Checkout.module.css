@@ -1,41 +1,47 @@
-.title { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 1rem; }
-.backBtn { background: none; border: none; color: var(--muted); font-size: .85rem; cursor: pointer; margin-bottom: 1rem; display: flex; align-items: center; gap: 4px; padding: 0; }
-.backBtn:hover { color: var(--text); }
+.title { font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; color: var(--text); }
+.backBtn { background: none; border: none; color: var(--accent); font-size: .85rem; cursor: pointer; margin-bottom: 1rem; display: flex; align-items: center; gap: 4px; padding: 0; font-weight: 500; }
+.backBtn:hover { text-decoration: underline; }
 
-.summary { background: var(--bg); border-radius: 12px; padding: 1rem; margin-bottom: 1.25rem; }
-.sumRow { display: flex; justify-content: space-between; font-size: .85rem; padding: 3px 0; }
-.sumTotal { font-weight: 600; font-size: 1rem; padding-top: 8px; border-top: 1px solid var(--border); margin-top: 6px; }
-.accent { color: var(--accent); }
-.free { color: var(--success); }
+.summary { background: #f5f5f5; border-radius: 6px; padding: 1rem; margin-bottom: 1.25rem; }
+.sumRow { display: flex; justify-content: space-between; font-size: .85rem; padding: 3px 0; color: var(--text); }
+.sumTotal { font-weight: 600; font-size: 1rem; padding-top: 8px; border-top: 1px solid #ddd; margin-top: 6px; }
+.accent { color: var(--text); }
+.free { color: var(--success); font-weight: 600; }
 
 .section { margin-bottom: 1.25rem; }
-.sectionTitle { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: .75rem; font-weight: 500; }
+.sectionTitle { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: .75rem; font-weight: 600; }
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
 .label { font-size: 12px; color: var(--muted); font-weight: 500; }
-.input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: .9rem; color: var(--text); background: var(--bg); outline: none; transition: border-color .15s; }
-.input:focus { border-color: var(--text); background: var(--surface); }
+.input {
+  width: 100%; padding: 10px 12px;
+  border: 1px solid #ddd; border-radius: 6px;
+  font-size: .9rem; color: var(--text); background: #fff; outline: none;
+  transition: border-color .15s;
+}
+.input:focus { border-color: var(--accent); }
 
 .cardWrap { position: relative; margin-bottom: 10px; }
-.cardWrap .input { padding-right: 40px; width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: .9rem; color: var(--text); background: var(--bg); outline: none; }
+.cardWrap input { width: 100%; padding: 10px 40px 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: .9rem; color: var(--text); background: #fff; outline: none; }
+.cardWrap input:focus { border-color: var(--accent); }
 .cardIcon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 1.1rem; }
 
-.divider { height: 1px; background: var(--border); margin: 1rem 0; }
+.divider { height: 1px; background: #eee; margin: 1rem 0; }
 
-.error { background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 10px 12px; font-size: .85rem; color: #991b1b; margin-bottom: .75rem; }
+.error { background: #fff0f0; border: 1px solid #ffcccc; border-radius: 6px; padding: 10px 12px; font-size: .85rem; color: #cc0000; margin-bottom: .75rem; }
 
 .payBtn {
   width: 100%; padding: 14px;
   background: var(--accent); color: #fff;
-  border: none; border-radius: 12px;
-  font-size: 1rem; font-weight: 500; cursor: pointer;
+  border: none; border-radius: 6px;
+  font-size: 1rem; font-weight: 600; cursor: pointer;
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: opacity .15s;
+  transition: background .15s;
 }
-.payBtn:hover { opacity: .9; }
-.payBtn:disabled { opacity: .5; cursor: not-allowed; }
+.payBtn:hover { background: var(--accent-hover); }
+.payBtn:disabled { opacity: .6; cursor: not-allowed; }
 
-.secure { text-align: center; font-size: 11px; color: var(--muted); margin-top: 8px; }
+.secure { text-align: center; font-size: 11px; color: #999; margin-top: 8px; }
 
 .spinner {
   width: 18px; height: 18px;

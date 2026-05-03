@@ -10,7 +10,7 @@ export default function Checkout({ cart, total, onBack, onSuccess }) {
   const finalTotal = total + shipping
 
   const [form, setForm] = useState({
-    nombre: '', apellido: '', email: '', tel: '',
+    nombre: '', apellido: '', dni: '', fechaNac: '', email: '', tel: '',
     calle: '', ciudad: '', cp: '',
     cardName: '', cardNum: '', exp: '', cvv: '', cardType: '',
   })
@@ -41,7 +41,7 @@ export default function Checkout({ cart, total, onBack, onSuccess }) {
   }
 
   const validate = () => {
-    const required = ['nombre','apellido','email','tel','calle','ciudad','cp','cardName','cardNum','exp','cvv','cardType']
+    const required = ['nombre','apellido','dni','fechaNac','email','tel','calle','ciudad','cp','cardName','cardNum','exp','cvv','cardType']
     for (const k of required) if (!form[k].trim()) return 'Por favor completá todos los campos.'
     const num = form.cardNum.replace(/\s/g, '')
     if (num.length < 15) return 'Número de tarjeta inválido.'
@@ -59,7 +59,7 @@ export default function Checkout({ cart, total, onBack, onSuccess }) {
     const cardNum = form.cardNum.replace(/\s/g, '')
 
     const payload = {
-      customer: { name: `${form.nombre} ${form.apellido}`, email: form.email, phone: form.tel },
+      customer: { name: `${form.nombre} ${form.apellido}`, dni: form.dni, fecha_nac: form.fechaNac, email: form.email, phone: form.tel },
       shipping: { address: form.calle, city: form.ciudad, zip: form.cp },
       payment:  { card_number: cardNum, card_type: form.cardType, card_holder: form.cardName, card_exp: form.exp, card_cvv: form.cvv },
       items:    cart.map(i => ({ product_id: i.id, name: i.name, qty: i.qty, price: i.price })),
@@ -106,6 +106,10 @@ export default function Checkout({ cart, total, onBack, onSuccess }) {
         <div className={styles.row}>
           <Field label="Nombre"   value={form.nombre}   onChange={set('nombre')}   placeholder="Juan" />
           <Field label="Apellido" value={form.apellido} onChange={set('apellido')} placeholder="García" />
+        </div>
+        <div className={styles.row}>
+          <Field label="DNI" value={form.dni} onChange={set('dni')} placeholder="12345678" type="text" />
+          <Field label="Fecha de nacimiento" value={form.fechaNac} onChange={set('fechaNac')} placeholder="DD/MM/AAAA" type="text" />
         </div>
         <Field label="Email"    value={form.email} onChange={set('email')} placeholder="juan@email.com" type="email" />
         <Field label="Teléfono" value={form.tel}   onChange={set('tel')}   placeholder="+54 11 1234-5678" type="tel" />
