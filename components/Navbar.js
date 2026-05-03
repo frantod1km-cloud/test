@@ -9,9 +9,8 @@ export default function Navbar({ cartCount, onCartClick }) {
 
   return (
     <>
-      {/* BARRA PRINCIPAL */}
-      <nav className={styles.nav}>
-        {/* LOGO */}
+      {/* FILA 1: Logo + Buscador */}
+      <div className={styles.nav}>
         <div className={styles.logo}>
           <div className={styles.logoBox}>
             <span className={styles.logoTop}>Mercado</span>
@@ -19,7 +18,6 @@ export default function Navbar({ cartCount, onCartClick }) {
           </div>
         </div>
 
-        {/* BUSCADOR */}
         <div className={styles.searchWrap}>
           <input
             className={styles.searchInput}
@@ -34,33 +32,34 @@ export default function Navbar({ cartCount, onCartClick }) {
             </svg>
           </button>
         </div>
+      </div>
 
-        {/* DERECHA */}
-        <div className={styles.navRight}>
-          <a href="/admin/login" className={styles.navLink}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-            </svg>
-            <span>Mi cuenta</span>
-          </a>
-          <button className={styles.cartBtn} onClick={onCartClick}>
-            <div className={styles.cartIcon}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-              </svg>
-              {cartCount > 0 && <span className={styles.cartBadge}>{cartCount}</span>}
-            </div>
-          </button>
-        </div>
-      </nav>
-
-      {/* BARRA DE MENÚS */}
+      {/* FILA 2: Menús + Mi cuenta + Carrito */}
       <div className={styles.menuBar}>
         <div className={styles.menuInner}>
           {MENUS.map(m => (
             <a key={m} href="#" className={styles.menuItem}>{m}</a>
           ))}
+
+          <div className={styles.menuSpacer} />
+
+          <a href="/admin/login" className={styles.navLink}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+            Mi cuenta
+          </a>
+
+          <button className={styles.cartBtn} onClick={onCartClick}>
+            <div className={styles.cartIcon}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              {cartCount > 0 && <span className={styles.cartBadge}>{cartCount}</span>}
+            </div>
+            Carrito
+          </button>
         </div>
       </div>
     </>

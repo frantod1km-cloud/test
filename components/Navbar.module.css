@@ -1,15 +1,12 @@
 /* ── BARRA PRINCIPAL ── */
 .nav {
-  background: #fff159;
+  background: #ffe600;
   padding: 0 1.5rem;
   display: flex;
   align-items: center;
   gap: 1rem;
-  height: 60px;
-  position: sticky;
-  top: 0;
+  height: 56px;
   z-index: 100;
-  box-shadow: 0 2px 4px rgba(0,0,0,.1);
 }
 
 /* LOGO */
@@ -17,16 +14,12 @@
 .logoBox {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background: #fff;
-  border-radius: 8px;
-  padding: 4px 10px;
-  line-height: 1;
-  box-shadow: 0 1px 3px rgba(0,0,0,.15);
+  align-items: flex-start;
+  line-height: 1.1;
 }
 .logoTop {
-  font-size: .85rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 800;
   color: #333;
   letter-spacing: -.3px;
 }
@@ -46,8 +39,8 @@
   background: #fff;
   border-radius: 2px;
   overflow: hidden;
-  box-shadow: 0 1px 2px rgba(0,0,0,.12);
-  border: 1px solid rgba(0,0,0,.1);
+  border: 1.5px solid #ffe600;
+  box-shadow: 0 1px 4px rgba(0,0,0,.15);
 }
 .searchInput {
   flex: 1;
@@ -62,7 +55,7 @@
 .searchBtn {
   background: #ffe600;
   border: none;
-  border-left: 1px solid rgba(0,0,0,.08);
+  border-left: 1.5px solid #d4c000;
   padding: 0 16px;
   cursor: pointer;
   display: flex;
@@ -70,71 +63,25 @@
   justify-content: center;
   transition: background .15s;
   height: 40px;
+  min-width: 48px;
 }
 .searchBtn:hover { background: #f5d800; }
 
-/* DERECHA */
-.navRight {
-  display: flex;
-  align-items: center;
-  gap: .75rem;
-  flex-shrink: 0;
-  margin-left: auto;
-}
-.navLink {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  text-decoration: none;
-  color: #333;
-  font-size: 11px;
-  font-weight: 500;
-  transition: color .15s;
-}
-.navLink:hover { color: #3483fa; }
-
-/* CARRITO */
-.cartBtn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  position: relative;
-  color: #333;
-  transition: color .15s;
-}
-.cartBtn:hover { color: #3483fa; }
-.cartIcon { position: relative; display: flex; }
-.cartBadge {
-  position: absolute;
-  top: -6px;
-  right: -8px;
-  background: #3483fa;
-  color: #fff;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  font-weight: 700;
-}
-
-/* ── BARRA DE MENÚS ── */
+/* ── BARRA INFERIOR (menú + cuenta + carrito) ── */
 .menuBar {
-  background: #fff;
-  border-bottom: 1px solid #e0e0e0;
+  background: #ffe600;
+  border-bottom: 1px solid #d4c000;
   position: sticky;
-  top: 60px;
-  z-index: 99;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
 }
 .menuInner {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
   display: flex;
+  align-items: center;
   gap: 0;
   overflow-x: auto;
 }
@@ -142,14 +89,60 @@
 .menuItem {
   text-decoration: none;
   color: #333;
-  font-size: 13.5px;
-  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 14px;
   white-space: nowrap;
-  transition: color .15s, border-bottom .15s;
-  border-bottom: 2px solid transparent;
+  transition: color .15s;
   display: block;
+  border-bottom: 2px solid transparent;
 }
-.menuItem:hover {
-  color: #3483fa;
-  border-bottom-color: #3483fa;
+.menuItem:hover { color: #3483fa; border-bottom-color: #3483fa; }
+
+.menuSpacer { flex: 1; }
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  color: #333;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 10px;
+  white-space: nowrap;
+  transition: color .15s;
+}
+.navLink:hover { color: #3483fa; }
+
+.cartBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 10px;
+  position: relative;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color .15s;
+}
+.cartBtn:hover { color: #3483fa; }
+.cartIcon { position: relative; display: flex; align-items: center; }
+.cartBadge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #3483fa;
+  color: #fff;
+  border-radius: 50%;
+  width: 17px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
 }

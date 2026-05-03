@@ -1,52 +1,55 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import styles from './Banner.module.css'
 
-// Ponés tus imágenes en /public/banner/ con estos nombres
 const SLIDES = [
-  { img: '/banner/banner-1.webp', fallbackColor: '#1e3a8a' },
-  { img: '/banner/banner-2.webp', fallbackColor: '#7c3aed' },
-  { img: '/banner/banner-3.webp', fallbackColor: '#065f46' },
-  { img: '/banner/banner-4.webp', fallbackColor: '#92400e' },
-  { img: '/banner/banner-5.webp', fallbackColor: '#1e3a8a' },
-  { img: '/banner/banner-6.webp', fallbackColor: '#831843' },
-  { img: '/banner/banner-7.webp', fallbackColor: '#134e4a' },
+  '/banner/banner-1.webp',
+  '/banner/banner-2.webp',
+  '/banner/banner-3.webp',
+  '/banner/banner-4.webp',
+  '/banner/banner-5.webp',
+  '/banner/banner-6.webp',
+  '/banner/banner-7.webp',
 ]
 
 export default function Banner() {
   const [current, setCurrent] = useState(0)
+  const [errors, setErrors]   = useState({})
+
+  const prev = useCallback(() => setCurrent(c => (c - 1 + SLIDES.length) % SLIDES.length), [])
+  const next = useCallback(() => setCurrent(c => (c + 1) % SLIDES.length), [])
 
   useEffect(() => {
-    const t = setInterval(() => setCurrent(c => (c + 1) % SLIDES.length), 5000)
+    const t = setInterval(next, 5000)
     return () => clearInterval(t)
-  }, [])
-
-  const prev = () => setCurrent(c => (c - 1 + SLIDES.length) % SLIDES.length)
-  const next = () => setCurrent(c => (c + 1) % SLIDES.length)
+  }, [next])
 
   return (
     <div className={styles.wrap}>
-      <div className={styles.slider}>
-        {SLIDES.map((s, i) => (
-          <div
-            key={i}
-            className={`${styles.slide} ${i === current ? styles.active : ''}`}
-            style={{ background: s.fallbackColor }}
-          >
-            <img src={s.img} alt={`Banner ${i + 1}`} className={styles.img} onError={e => e.target.style.display='none'} />
+      <div className={styles.track} style={{ transform: `translateX(-${current * 100}%)` }}>
+        {SLIDES.map((src, i) => (
+          <div key={i} className={styles.slide}>
+            {!errors[i]
+              ? <img
+                  src={src}
+                  alt={`Banner ${i + 1}`}
+                  className={styles.img}
+                  onError={() => setErrors(p => ({ ...p, [i]: true }))}
+                />
+              : <div className={styles.fallback}>
+                  <span>Banner {i + 1}</span>
+                  <small>{src}</small>
+                </div>
+            }
           </div>
         ))}
       </div>
 
-      <button className={`${styles.arrow} ${styles.arrowLeft}`} onClick={prev} aria-label="Anterior">
-        <svg width="10" height="18" viewBox="0 0 10 18" fill="none">
-          <path d="M9 1L1 9l8 8" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+      <button className={`${styles.arrow} ${styles.left}`} onClick={prev}>
+        <svg width="9" height="16" viewBox="0 0 9 16"><path d="M8 1L1 8l7 7" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>
       </button>
-      <button className={`${styles.arrow} ${styles.arrowRight}`} onClick={next} aria-label="Siguiente">
-        <svg width="10" height="18" viewBox="0 0 10 18" fill="none">
-          <path d="M1 1l8 8-8 8" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+      <button className={`${styles.arrow} ${styles.right}`} onClick={next}>
+        <svg width="9" height="16" viewBox="0 0 9 16"><path d="M1 1l7 7-7 7" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>
       </button>
 
       <div className={styles.dots}>
