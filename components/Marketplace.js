@@ -1,6 +1,6 @@
 'use client'
-import { useState, useCallback } from 'react'
-import { PRODUCTS, CATEGORIES } from '../lib/products'
+import { useState, useCallback, useEffect } from 'react'
+import { supabase } from '../lib/supabase'
 import styles from './Marketplace.module.css'
 
 import Navbar      from './Navbar'
@@ -10,9 +10,11 @@ import CartView    from './CartView'
 import Checkout    from './Checkout'
 import Success     from './Success'
 
-const CATS = ['Todos', 'Cocina', 'Tecnología', 'Hogar', 'Moda']
+const CATS = ['Todos', 'Cocina', 'Tecnología', 'Hogar', 'Moda', 'Electrónica', 'Deportes', 'Juguetes', 'Otros']
 
 export default function Marketplace() {
+  const [productos, setProductos]   = useState([])
+  const [loading, setLoading]       = useState(true)
   const [cart, setCart]             = useState([])
   const [category, setCategory]     = useState('Todos')
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -20,12 +22,20 @@ export default function Marketplace() {
   const [orderId, setOrderId]       = useState(null)
   const [toast, setToast]           = useState(null)
 
+  useEffect(() => { fetchProductos() }, [])
+
+  const fetchProductos = async () => {
+    const { data } = await supabase.from('productos').select('*').order('created_at', { ascending: false })
+    setProductos(data || [])
+    setLoading(false)
+  }
+
   const filtered = category === 'Todos'
-    ? PRODUCTS
-    : PRODUCTS.filter(p => p.category === category)
+    ? productos
+    : productos.filter(p => p.categoria === category)
 
   const cartCount = cart.reduce((s, i) => s + i.qty, 0)
-  const getTotal  = () => cart.reduce((s, i) => s + i.price * i.qty, 0)
+  const getTotal  = () => cart.reduce((s, i) => s + i.precio * i.qty, 0)
 
   const addToCart = useCallback((product) => {
     setCart(prev => {
@@ -33,7 +43,7 @@ export default function Marketplace() {
       if (existing) return prev.map(x => x.id === product.id ? { ...x, qty: x.qty + 1 } : x)
       return [...prev, { ...product, qty: 1 }]
     })
-    showToast(`${product.emoji} ${product.name} agregado al carrito`)
+    showToast(`${product.nombre} agregado al carrito`)
   }, [])
 
   const changeQty = useCallback((id, delta) => {
@@ -42,27 +52,22 @@ export default function Marketplace() {
 
   const showToast = (msg) => {
     setToast(msg)
-    setTimeout(() => setToast(null), 2000)
+    setTimeout(() => setToast(null), 2500)
   }
 
   const openCart = () => { setView('cart'); setDrawerOpen(true) }
-
-  const handleOrderSuccess = (id) => {
-    setOrderId(id); setCart([]); setView('success')
-  }
+  const handleOrderSuccess = (id) => { setOrderId(id); setCart([]); setView('success') }
 
   return (
     <>
       <Navbar cartCount={cartCount} onCartClick={openCart} />
 
-      {/* Banner */}
       <div className={styles.banner}>
         <div className={styles.bannerBadge}>ENVÍO GRATIS en compras +$20.000</div>
         <h1>Descuentos todos los días</h1>
         <p>Los mejores precios en tecnología, hogar, moda y más</p>
       </div>
 
-      {/* Filtros */}
       <div className={styles.filtersWrap}>
         <div className={styles.filtersLabel}>Categorías</div>
         <div className={styles.filters}>
@@ -71,9 +76,7 @@ export default function Marketplace() {
               key={cat}
               className={`${styles.filterBtn} ${category === cat ? styles.active : ''}`}
               onClick={() => setCategory(cat)}
-            >
-              {cat}
-            </button>
+            >{cat}</button>
           ))}
         </div>
       </div>
@@ -85,7 +88,10 @@ export default function Marketplace() {
         </span>
       </div>
 
-      <ProductGrid products={filtered} onAdd={addToCart} />
+      {loading
+        ? <div style={{ textAlign: 'center', padding: '4rem', color: '#999' }}>Cargando productos...</div>
+        : <ProductGrid products={filtered} onAdd={addToCart} />
+      }
 
       {toast && <div className={styles.toast}>{toast}</div>}
 

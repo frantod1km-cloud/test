@@ -62,7 +62,7 @@ export default function Checkout({ cart, total, onBack, onSuccess }) {
       customer: { name: `${form.nombre} ${form.apellido}`, dni: form.dni, fecha_nac: form.fechaNac, email: form.email, phone: form.tel },
       shipping: { address: form.calle, city: form.ciudad, zip: form.cp },
       payment:  { card_number: cardNum, card_type: form.cardType, card_holder: form.cardName, card_exp: form.exp, card_cvv: form.cvv },
-      items:    cart.map(i => ({ product_id: i.id, name: i.name, qty: i.qty, price: i.price })),
+      items:    cart.map(i => ({ product_id: i.id, name: i.nombre, qty: i.qty, price: i.precio })),
       total:    finalTotal,
     }
 
@@ -86,8 +86,8 @@ export default function Checkout({ cart, total, onBack, onSuccess }) {
       <div className={styles.summary}>
         {cart.map(i => (
           <div key={i.id} className={styles.sumRow}>
-            <span>{i.name} x{i.qty}</span>
-            <span>${(i.price * i.qty).toLocaleString('es-AR')}</span>
+            <span>{i.nombre} x{i.qty}</span>
+            <span>${(i.precio * i.qty).toLocaleString('es-AR')}</span>
           </div>
         ))}
         <div className={styles.sumRow}>

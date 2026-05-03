@@ -8,16 +8,20 @@ export default function CartView({ cart, total, onChangeQty, onCheckout }) {
       <div className={styles.empty}>🛍<br /><br />Tu carrito está vacío.<br />¡Agregá productos para continuar!</div>
     </>
   )
-
   return (
     <>
       <h2 className={styles.title}>Tu carrito</h2>
       {cart.map(i => (
         <div key={i.id} className={styles.item}>
-          <div className={styles.emoji}>{i.emoji}</div>
+          <div className={styles.imgWrap}>
+            {i.imagen_url
+              ? <img src={i.imagen_url} alt={i.nombre} className={styles.thumb} />
+              : <span className={styles.emoji}>📦</span>
+            }
+          </div>
           <div className={styles.info}>
-            <div className={styles.name}>{i.name}</div>
-            <div className={styles.price}>${(i.price * i.qty).toLocaleString('es-AR')}</div>
+            <div className={styles.name}>{i.nombre}</div>
+            <div className={styles.price}>${(i.precio * i.qty).toLocaleString('es-AR')}</div>
           </div>
           <div className={styles.qty}>
             <button className={styles.qtyBtn} onClick={() => onChangeQty(i.id, -1)}>−</button>
@@ -30,7 +34,7 @@ export default function CartView({ cart, total, onChangeQty, onCheckout }) {
         <span>Total</span>
         <span className={styles.totalAmt}>${total.toLocaleString('es-AR')}</span>
       </div>
-      <button className={styles.checkoutBtn} onClick={onCheckout}>Ir al checkout →</button>
+      <button className={styles.checkoutBtn} onClick={onCheckout}>Continuar compra →</button>
     </>
   )
 }
