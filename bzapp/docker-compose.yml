@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: bzapp-postgres
+    environment:
+      POSTGRES_USER: bzapp
+      POSTGRES_PASSWORD: bzapp
+      POSTGRES_DB: bzapp
+    ports:
+      - "5432:5432"
+    volumes:
+      - bzapp-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bzapp -d bzapp"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Redis opcional — descomentar cuando se use rate limiting o pub/sub local
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: bzapp-redis
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - bzapp-redis-data:/data
+
+  # Mailpit para email local (opcional)
+  # mailpit:
+  #   image: axllent/mailpit:latest
+  #   container_name: bzapp-mailpit
+  #   ports:
+  #     - "1025:1025"
+  #     - "8025:8025"
+
+volumes:
+  bzapp-postgres-data:
+  # bzapp-redis-data:
