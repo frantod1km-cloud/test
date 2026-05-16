@@ -25,8 +25,8 @@ const config: Config = {
           3: '#71717a',
         },
         accent: {
-          DEFAULT: 'var(--accent, #5b8cff)',
-          strong: 'var(--accent-strong, #2e5fff)',
+          DEFAULT: '#5b8cff',
+          strong: '#2e5fff',
         },
       },
       fontFamily: {
