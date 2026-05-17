@@ -33,7 +33,7 @@ export async function GET() {
     email: user.email,
     name: user.name,
     isPlatformAdmin: user.isPlatformAdmin,
-    memberships: user.memberships.map((m) => ({
+    memberships: user.memberships.map((m: any) => ({
       organizationId: m.organizationId,
       organizationName: m.organization.name,
       organizationSlug: m.organization.slug,
