@@ -1,0 +1,54 @@
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+.empty { text-align: center; padding: 2rem; color: var(--muted); font-size: .95rem; line-height: 1.8; }
+
+.item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.emoji { font-size: 2rem; width: 44px; text-align: center; }
+.info { flex: 1; }
+.name { font-weight: 500; font-size: .9rem; }
+.price { font-size: .85rem; color: var(--muted); }
+.qty { display: flex; align-items: center; gap: 8px; }
+.qtyBtn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text);
+  font-weight: 500;
+  transition: background .1s;
+}
+.qtyBtn:hover { background: var(--border); }
+.qtyVal { font-weight: 500; font-size: .9rem; min-width: 20px; text-align: center; }
+
+.total {
+  padding: 1rem 0 .5rem;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  font-size: 1.05rem;
+}
+.totalAmt {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: var(--accent);
+}
+.checkoutBtn {
+  width: 100%;
+  padding: 14px;
+  background: var(--text);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: .75rem;
+  transition: opacity .15s;
+}
+.checkoutBtn:hover { opacity: .85; }

@@ -1,0 +1,62 @@
+.hero {
+  padding: 3.5rem 2rem 2.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.15;
+  font-weight: 600;
+  margin-bottom: .75rem;
+}
+.hero p {
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.filters {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem 1.5rem;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.filterBtn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .15s;
+  color: var(--text);
+}
+.filterBtn:hover, .filterBtn.active {
+  background: var(--text);
+  color: #fff;
+  border-color: var(--text);
+}
+
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: .9rem;
+  z-index: 999;
+  animation: fadeInOut 2s ease forwards;
+  white-space: nowrap;
+}
+@keyframes fadeInOut {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  15%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}

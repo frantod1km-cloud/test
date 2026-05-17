@@ -1,0 +1,502 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =====================================================================
+// ENUMS
+// =====================================================================
+
+enum OrganizationType {
+  COUNTRY
+  BUILDING
+  INDUSTRIAL_PARK
+  OFFICE
+  CLUB
+  NEIGHBORHOOD
+  OTHER
+}
+
+enum OrganizationStatus {
+  ONBOARDING
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  SUSPENDED
+  CANCELED
+}
+
+enum MembershipStatus {
+  INVITED
+  ACTIVE
+  SUSPENDED
+}
+
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  SUSPENDED
+  CANCELED
+}
+
+enum BillingInterval {
+  MONTHLY
+  YEARLY
+}
+
+enum DocumentType {
+  DNI
+  CUIT
+  CUIL
+  PASSPORT
+  FOREIGN_ID
+  OTHER
+}
+
+enum Gender {
+  M
+  F
+  X
+}
+
+enum UnitKind {
+  LOT
+  APARTMENT
+  OFFICE
+  WAREHOUSE
+  COMMERCIAL
+  OTHER
+}
+
+enum ResidentRelation {
+  OWNER
+  TENANT
+  FAMILY
+  STAFF
+  GUEST_PERMANENT
+}
+
+enum VehicleKind {
+  CAR
+  MOTORCYCLE
+  TRUCK
+  BICYCLE
+  OTHER
+}
+
+enum AccessPointKind {
+  PEDESTRIAN
+  VEHICULAR
+  MIXED
+}
+
+enum AccessDirection {
+  IN
+  OUT
+  BOTH
+}
+
+enum AuthorizationKind {
+  SINGLE_USE
+  MULTIPLE
+  RECURRING
+  OPEN
+}
+
+enum AuthorizationStatus {
+  ACTIVE
+  USED
+  EXPIRED
+  REVOKED
+}
+
+enum ScanMethod {
+  DNI_PDF417
+  DNI_MANUAL
+  QR
+  OCR_PLATE
+  RFID
+  FACE
+  MANUAL
+}
+
+enum AccessOutcome {
+  GRANTED
+  DENIED
+  REVIEW
+}
+
+enum AlertKind {
+  PANIC
+  INTRUSION
+  BLACKLIST_MATCH
+  OVERSTAY
+  SYSTEM
+}
+
+enum AlertSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+// =====================================================================
+// PLATFORM (global)
+// =====================================================================
+
+model User {
+  id              String    @id @default(uuid()) @db.Uuid
+  email           String    @unique
+  passwordHash    String?   @map("password_hash")
+  name            String
+  phone           String?
+  emailVerifiedAt DateTime? @map("email_verified_at")
+  isPlatformAdmin Boolean   @default(false) @map("is_platform_admin")
+  lastLoginAt     DateTime? @map("last_login_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  memberships   Membership[]
+  refreshTokens RefreshToken[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id           String    @id @default(uuid()) @db.Uuid
+  userId       String    @map("user_id") @db.Uuid
+  tokenHash    String    @unique @map("token_hash")
+  expiresAt    DateTime  @map("expires_at")
+  revokedAt    DateTime? @map("revoked_at")
+  replacedById String?   @map("replaced_by_id") @db.Uuid
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model Plan {
+  id                String  @id @default(uuid()) @db.Uuid
+  code              String  @unique
+  name              String
+  description       String?
+  priceMonthlyCents Int     @map("price_monthly_cents")
+  priceYearlyCents  Int     @map("price_yearly_cents")
+  currency          String  @default("ARS")
+  trialDays         Int     @default(14) @map("trial_days")
+  limits            Json    @default("{}")
+  features          Json    @default("{}")
+  isPublic          Boolean @default(true) @map("is_public")
+  isActive          Boolean @default(true) @map("is_active")
+  sortOrder         Int     @default(0) @map("sort_order")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  subscriptions Subscription[]
+
+  @@map("plans")
+}
+
+// =====================================================================
+// TENANT — Organization
+// =====================================================================
+
+model Organization {
+  id                    String             @id @default(uuid()) @db.Uuid
+  slug                  String             @unique
+  name                  String
+  legalName             String?            @map("legal_name")
+  taxId                 String?            @map("tax_id")
+  type                  OrganizationType
+  country               String             @default("AR")
+  timezone              String             @default("America/Argentina/Buenos_Aires")
+  status                OrganizationStatus @default(ONBOARDING)
+  onboardingCompletedAt DateTime?          @map("onboarding_completed_at")
+  metadata              Json               @default("{}")
+  createdAt             DateTime           @default(now()) @map("created_at")
+  updatedAt             DateTime           @updatedAt @map("updated_at")
+  deletedAt             DateTime?          @map("deleted_at")
+
+  subscription   Subscription?
+  memberships    Membership[]
+  roles          Role[]
+  persons        Person[]
+  units          Unit[]
+  residents      Resident[]
+  vehicles       Vehicle[]
+  accessPoints   AccessPoint[]
+  authorizations Authorization[]
+  accessEvents   AccessEvent[]
+  alerts         Alert[]
+  auditLogs      AuditLog[]
+
+  @@index([status])
+  @@map("organizations")
+}
+
+model Subscription {
+  id                 String             @id @default(uuid()) @db.Uuid
+  organizationId     String             @unique @map("organization_id") @db.Uuid
+  planId             String             @map("plan_id") @db.Uuid
+  status             SubscriptionStatus @default(TRIALING)
+  interval           BillingInterval    @default(MONTHLY)
+  trialEndsAt        DateTime?          @map("trial_ends_at")
+  currentPeriodStart DateTime           @map("current_period_start")
+  currentPeriodEnd   DateTime           @map("current_period_end")
+  canceledAt         DateTime?          @map("canceled_at")
+  createdAt          DateTime           @default(now()) @map("created_at")
+  updatedAt          DateTime           @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  plan         Plan         @relation(fields: [planId], references: [id])
+
+  @@map("subscriptions")
+}
+
+// =====================================================================
+// Membership / Roles / Permissions
+// =====================================================================
+
+model Membership {
+  id             String           @id @default(uuid()) @db.Uuid
+  userId         String           @map("user_id") @db.Uuid
+  organizationId String           @map("organization_id") @db.Uuid
+  status         MembershipStatus @default(ACTIVE)
+  roleId         String?          @map("role_id") @db.Uuid
+  joinedAt       DateTime?        @map("joined_at")
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  role         Role?        @relation(fields: [roleId], references: [id])
+
+  @@unique([userId, organizationId])
+  @@index([organizationId, status])
+  @@map("memberships")
+}
+
+model Role {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String?  @map("organization_id") @db.Uuid
+  code           String
+  name           String
+  description    String?
+  isSystem       Boolean  @default(false) @map("is_system")
+  permissions    String[] @default([])
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  memberships  Membership[]
+
+  @@unique([organizationId, code])
+  @@map("roles")
+}
+
+// =====================================================================
+// People, Units, Residents, Vehicles
+// =====================================================================
+
+model Person {
+  id             String       @id @default(uuid()) @db.Uuid
+  organizationId String       @map("organization_id") @db.Uuid
+  documentType   DocumentType @map("document_type")
+  documentNumber String       @map("document_number")
+  firstName      String       @map("first_name")
+  lastName       String       @map("last_name")
+  birthDate      DateTime?    @map("birth_date") @db.Date
+  gender         Gender?
+  phone          String?
+  email          String?
+  photoUrl       String?      @map("photo_url")
+  notes          String?
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+  deletedAt      DateTime?    @map("deleted_at")
+
+  organization     Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  residencies      Resident[]
+  vehicles         Vehicle[]
+  authorizationsFor Authorization[]
+  accessEvents     AccessEvent[]
+
+  @@unique([organizationId, documentType, documentNumber])
+  @@index([organizationId, lastName, firstName])
+  @@map("persons")
+}
+
+model Unit {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  code           String
+  kind           UnitKind
+  addressLine    String?  @map("address_line")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+  deletedAt      DateTime? @map("deleted_at")
+
+  organization   Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  residents      Resident[]
+  authorizations Authorization[]
+
+  @@unique([organizationId, code])
+  @@map("units")
+}
+
+model Resident {
+  id             String           @id @default(uuid()) @db.Uuid
+  organizationId String           @map("organization_id") @db.Uuid
+  personId       String           @map("person_id") @db.Uuid
+  unitId         String           @map("unit_id") @db.Uuid
+  relation       ResidentRelation
+  isActive       Boolean          @default(true) @map("is_active")
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  person       Person       @relation(fields: [personId], references: [id])
+  unit         Unit         @relation(fields: [unitId], references: [id])
+
+  @@unique([organizationId, personId, unitId])
+  @@map("residents")
+}
+
+model Vehicle {
+  id                    String      @id @default(uuid()) @db.Uuid
+  organizationId        String      @map("organization_id") @db.Uuid
+  plate                 String
+  plateNormalized       String      @map("plate_normalized")
+  kind                  VehicleKind @default(CAR)
+  make                  String?
+  model                 String?
+  color                 String?
+  ownerPersonId         String?     @map("owner_person_id") @db.Uuid
+  isAuthorizedPermanent Boolean     @default(false) @map("is_authorized_permanent")
+  createdAt             DateTime    @default(now()) @map("created_at")
+  updatedAt             DateTime    @updatedAt @map("updated_at")
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  ownerPerson  Person?       @relation(fields: [ownerPersonId], references: [id])
+  accessEvents AccessEvent[]
+
+  @@unique([organizationId, plateNormalized])
+  @@map("vehicles")
+}
+
+// =====================================================================
+// Access
+// =====================================================================
+
+model AccessPoint {
+  id             String          @id @default(uuid()) @db.Uuid
+  organizationId String          @map("organization_id") @db.Uuid
+  name           String
+  kind           AccessPointKind @default(MIXED)
+  direction      AccessDirection @default(BOTH)
+  isActive       Boolean         @default(true) @map("is_active")
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  accessEvents AccessEvent[]
+
+  @@index([organizationId])
+  @@map("access_points")
+}
+
+model Authorization {
+  id              String              @id @default(uuid()) @db.Uuid
+  organizationId  String              @map("organization_id") @db.Uuid
+  kind            AuthorizationKind
+  status          AuthorizationStatus @default(ACTIVE)
+  createdByUserId String              @map("created_by_user_id") @db.Uuid
+  forPersonId     String?             @map("for_person_id") @db.Uuid
+  forUnitId       String?             @map("for_unit_id") @db.Uuid
+  guestName       String?             @map("guest_name")
+  validFrom       DateTime            @map("valid_from")
+  validTo         DateTime            @map("valid_to")
+  maxUses         Int?                @map("max_uses")
+  usesCount       Int                 @default(0) @map("uses_count")
+  qrToken         String?             @unique @map("qr_token")
+  notes           String?
+  createdAt       DateTime            @default(now()) @map("created_at")
+  updatedAt       DateTime            @updatedAt @map("updated_at")
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  forPerson    Person?       @relation(fields: [forPersonId], references: [id])
+  forUnit      Unit?         @relation(fields: [forUnitId], references: [id])
+  accessEvents AccessEvent[]
+
+  @@index([organizationId, status, validFrom, validTo])
+  @@map("authorizations")
+}
+
+model AccessEvent {
+  id              String          @id @default(uuid()) @db.Uuid
+  organizationId  String          @map("organization_id") @db.Uuid
+  accessPointId   String          @map("access_point_id") @db.Uuid
+  direction       AccessDirection
+  scanMethod      ScanMethod      @map("scan_method")
+  outcome         AccessOutcome
+  personId        String?         @map("person_id") @db.Uuid
+  vehicleId       String?         @map("vehicle_id") @db.Uuid
+  authorizationId String?         @map("authorization_id") @db.Uuid
+  guardUserId     String?         @map("guard_user_id") @db.Uuid
+  notes           String?
+  occurredAt      DateTime        @default(now()) @map("occurred_at")
+
+  organization  Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  accessPoint   AccessPoint    @relation(fields: [accessPointId], references: [id])
+  person        Person?        @relation(fields: [personId], references: [id])
+  vehicle       Vehicle?       @relation(fields: [vehicleId], references: [id])
+  authorization Authorization? @relation(fields: [authorizationId], references: [id])
+
+  @@index([organizationId, occurredAt(sort: Desc)])
+  @@index([organizationId, personId, occurredAt(sort: Desc)])
+  @@map("access_events")
+}
+
+// =====================================================================
+// Alerts & Audit
+// =====================================================================
+
+model Alert {
+  id             String        @id @default(uuid()) @db.Uuid
+  organizationId String        @map("organization_id") @db.Uuid
+  kind           AlertKind
+  severity       AlertSeverity
+  title          String
+  description    String?
+  resolvedAt     DateTime?     @map("resolved_at")
+  createdAt      DateTime      @default(now()) @map("created_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, createdAt(sort: Desc)])
+  @@map("alerts")
+}
+
+model AuditLog {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  actorUserId    String?  @map("actor_user_id") @db.Uuid
+  action         String
+  resourceType   String   @map("resource_type")
+  resourceId     String?  @map("resource_id")
+  metadata       Json     @default("{}")
+  occurredAt     DateTime @default(now()) @map("occurred_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, occurredAt(sort: Desc)])
+  @@map("audit_logs")
+}

@@ -1,0 +1,1073 @@
+// BZAPP — Prisma schema (v1.0)
+// Fuente de verdad del modelo de datos. Leer junto con docs/03-data-model.md.
+//
+// Convenciones:
+// - IDs: uuid v7 generados por la app (no por DB) para ordenamiento temporal.
+// - Timestamps: createdAt / updatedAt en toda tabla. deletedAt donde aplica.
+// - organizationId en toda tabla tenant-scoped (las marcadas con // TENANT).
+// - Enums en MAYÚSCULAS. Columnas en snake_case (vía @map).
+// - Aislamiento multi-tenant garantizado por: Prisma middleware + Postgres RLS.
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex", "postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgcrypto, citext, pg_trgm]
+}
+
+// =====================================================================
+// ENUMS
+// =====================================================================
+
+enum OrganizationType {
+  COUNTRY
+  BUILDING
+  INDUSTRIAL_PARK
+  OFFICE
+  CLUB
+  NEIGHBORHOOD
+  OTHER
+}
+
+enum OrganizationStatus {
+  ONBOARDING
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  SUSPENDED
+  CANCELED
+}
+
+enum BrandingMode {
+  LIGHT
+  DARK
+  AUTO
+}
+
+enum MembershipStatus {
+  INVITED
+  ACTIVE
+  SUSPENDED
+}
+
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  SUSPENDED
+  CANCELED
+}
+
+enum BillingInterval {
+  MONTHLY
+  YEARLY
+}
+
+enum InvoiceStatus {
+  OPEN
+  PAID
+  VOID
+  UNCOLLECTIBLE
+  REFUNDED
+}
+
+enum DocumentType {
+  DNI
+  CUIT
+  CUIL
+  PASSPORT
+  FOREIGN_ID
+  OTHER
+}
+
+enum Gender {
+  M
+  F
+  X
+}
+
+enum UnitKind {
+  LOT
+  APARTMENT
+  OFFICE
+  WAREHOUSE
+  COMMERCIAL
+  AMENITY
+  OTHER
+}
+
+enum ResidentRelation {
+  OWNER
+  TENANT
+  FAMILY
+  STAFF
+  GUEST_PERMANENT
+}
+
+enum VehicleKind {
+  CAR
+  MOTORCYCLE
+  TRUCK
+  BICYCLE
+  OTHER
+}
+
+enum AccessPointKind {
+  PEDESTRIAN
+  VEHICULAR
+  MIXED
+}
+
+enum AccessDirection {
+  IN
+  OUT
+  BOTH
+}
+
+enum AuthorizationKind {
+  SINGLE_USE
+  MULTIPLE
+  RECURRING
+  OPEN
+}
+
+enum AuthorizationStatus {
+  ACTIVE
+  USED
+  EXPIRED
+  REVOKED
+}
+
+enum ScanMethod {
+  DNI_PDF417
+  DNI_MANUAL
+  QR
+  OCR_PLATE
+  RFID
+  FACE
+  MANUAL
+}
+
+enum AccessOutcome {
+  GRANTED
+  DENIED
+  REVIEW
+}
+
+enum DenialReason {
+  NOT_FOUND
+  BLOCKLISTED
+  AUTH_EXPIRED
+  OUT_OF_HOURS
+  AUTH_USED
+  VEHICLE_MISMATCH
+  GUARD_DECISION
+  OTHER
+}
+
+enum AlertKind {
+  PANIC
+  INTRUSION
+  BLACKLIST_MATCH
+  OVERSTAY
+  DOOR_FORCED
+  CAMERA_OFFLINE
+  SYSTEM
+}
+
+enum AlertSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum AlertStatus {
+  OPEN
+  ACKNOWLEDGED
+  RESOLVED
+  DISMISSED
+}
+
+enum NotificationChannel {
+  EMAIL
+  SMS
+  WHATSAPP
+  PUSH
+  IN_APP
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+  BOUNCED
+  CANCELED
+}
+
+enum BlocklistKind {
+  PERSON
+  VEHICLE
+  DOCUMENT
+  PLATE
+}
+
+enum IntegrationKind {
+  WHATSAPP_CLOUD
+  EMAIL_SMTP
+  CAMERA_HIKVISION
+  CAMERA_DAHUA
+  BARRIER_NICE
+  BARRIER_FAAC
+  ALPR_PLATERECOGNIZER
+  ALPR_OPENALPR
+  WEBHOOK_GENERIC
+}
+
+enum AttachmentKind {
+  PERSON_PHOTO
+  VEHICLE_PHOTO
+  ACCESS_PHOTO
+  DOCUMENT
+  INVOICE_PDF
+  REPORT_EXPORT
+  OTHER
+}
+
+enum ApiKeyScope {
+  READ
+  WRITE
+  ADMIN
+}
+
+enum WebhookOutEvent {
+  ACCESS_EVENT_CREATED
+  ACCESS_EVENT_UPDATED
+  ALERT_CREATED
+  RESIDENT_CREATED
+  RESIDENT_UPDATED
+  AUTHORIZATION_CREATED
+  AUTHORIZATION_USED
+  INVOICE_PAID
+  SUBSCRIPTION_UPDATED
+}
+
+enum PlatformRole {
+  PLATFORM_OWNER
+  PLATFORM_SUPPORT
+  PLATFORM_BILLING
+}
+
+// =====================================================================
+// PLATFORM (global, sin organizationId)
+// =====================================================================
+
+model User {
+  id               String    @id @db.Uuid
+  email            String    @unique @db.Citext
+  passwordHash     String?   @map("password_hash")
+  name             String
+  phone            String?
+  emailVerifiedAt  DateTime? @map("email_verified_at")
+  phoneVerifiedAt  DateTime? @map("phone_verified_at")
+  mfaSecret        String?   @map("mfa_secret")
+  mfaEnabledAt    DateTime? @map("mfa_enabled_at")
+  lastLoginAt      DateTime? @map("last_login_at")
+  isPlatformAdmin  Boolean   @default(false) @map("is_platform_admin")
+  platformRoles    PlatformRole[] @default([]) @map("platform_roles")
+  locale           String    @default("es-AR")
+  timezone         String    @default("America/Argentina/Buenos_Aires")
+  avatarUrl        String?   @map("avatar_url")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+  deletedAt        DateTime? @map("deleted_at")
+
+  memberships      Membership[]
+  refreshTokens    RefreshToken[]
+  invitationsSent  Invitation[]   @relation("InvitationsSent")
+  invitationsAccepted Invitation[] @relation("InvitationsAccepted")
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id            String   @id @db.Uuid
+  userId        String   @map("user_id") @db.Uuid
+  tokenHash     String   @unique @map("token_hash")
+  deviceLabel   String?  @map("device_label")
+  ip            String?
+  userAgent     String?  @map("user_agent")
+  expiresAt     DateTime @map("expires_at")
+  revokedAt     DateTime? @map("revoked_at")
+  replacedById  String?  @map("replaced_by_id") @db.Uuid
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model Plan {
+  id                 String           @id @db.Uuid
+  code               String           @unique
+  name               String
+  description        String?
+  priceMonthlyCents  Int              @map("price_monthly_cents")
+  priceYearlyCents   Int              @map("price_yearly_cents")
+  currency           String           @default("ARS")
+  trialDays          Int              @default(14) @map("trial_days")
+  limits             Json             @default("{}")
+  features           Json             @default("{}")
+  mpPreapprovalPlanIdMonthly String?  @map("mp_preapproval_plan_id_monthly")
+  mpPreapprovalPlanIdYearly  String?  @map("mp_preapproval_plan_id_yearly")
+  isPublic           Boolean          @default(true) @map("is_public")
+  isActive           Boolean          @default(true) @map("is_active")
+  sortOrder          Int              @default(0) @map("sort_order")
+  createdAt          DateTime         @default(now()) @map("created_at")
+  updatedAt          DateTime         @updatedAt @map("updated_at")
+
+  subscriptions Subscription[]
+
+  @@map("plans")
+}
+
+model FeatureFlag {
+  id           String   @id @db.Uuid
+  key          String   @unique
+  description  String?
+  defaultValue Boolean  @default(false) @map("default_value")
+  rolloutPct   Int      @default(0) @map("rollout_pct")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  overrides FeatureFlagOverride[]
+
+  @@map("feature_flags")
+}
+
+model FeatureFlagOverride {
+  id             String   @id @db.Uuid
+  featureFlagId  String   @map("feature_flag_id") @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid // TENANT
+  value          Boolean
+  note           String?
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  featureFlag  FeatureFlag  @relation(fields: [featureFlagId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([featureFlagId, organizationId])
+  @@index([organizationId])
+  @@map("feature_flag_overrides")
+}
+
+model PlatformAuditLog {
+  id              String   @id @db.Uuid
+  actorUserId     String   @map("actor_user_id") @db.Uuid
+  action          String
+  resourceType    String   @map("resource_type")
+  resourceId      String?  @map("resource_id")
+  onBehalfOfOrgId String?  @map("on_behalf_of_org_id") @db.Uuid
+  reason          String?
+  ip              String?
+  userAgent       String?  @map("user_agent")
+  metadata        Json     @default("{}")
+  occurredAt      DateTime @default(now()) @map("occurred_at")
+
+  @@index([actorUserId, occurredAt(sort: Desc)])
+  @@index([resourceType, resourceId])
+  @@map("platform_audit_logs")
+}
+
+model WebhookEvent {
+  id            String    @id @db.Uuid
+  provider      String
+  providerEventId String  @map("provider_event_id")
+  eventType     String    @map("event_type")
+  payload       Json
+  signature     String?
+  receivedAt    DateTime  @default(now()) @map("received_at")
+  processedAt   DateTime? @map("processed_at")
+  processError  String?   @map("process_error")
+  attempts      Int       @default(0)
+
+  @@unique([provider, providerEventId])
+  @@index([processedAt])
+  @@map("webhook_events")
+}
+
+// =====================================================================
+// TENANT — Organization core
+// =====================================================================
+
+model Organization {
+  id                    String             @id @db.Uuid
+  slug                  String             @unique
+  name                  String
+  legalName             String?            @map("legal_name")
+  taxId                 String?            @map("tax_id")
+  type                  OrganizationType
+  country               String             @default("AR")
+  timezone              String             @default("America/Argentina/Buenos_Aires")
+  locale                String             @default("es-AR")
+  status                OrganizationStatus @default(ONBOARDING)
+  onboardingState       Json               @default("{}") @map("onboarding_state")
+  onboardingCompletedAt DateTime?          @map("onboarding_completed_at")
+  metadata              Json               @default("{}")
+  createdAt             DateTime           @default(now()) @map("created_at")
+  updatedAt             DateTime           @updatedAt @map("updated_at")
+  deletedAt             DateTime?          @map("deleted_at")
+
+  branding         Branding?
+  subscription     Subscription?
+  paymentMethods   PaymentMethod[]
+  invoices         Invoice[]
+  memberships      Membership[]
+  roles            Role[]
+  invitations      Invitation[]
+  persons          Person[]
+  units            Unit[]
+  residents        Resident[]
+  vehicles         Vehicle[]
+  accessPoints     AccessPoint[]
+  authorizations   Authorization[]
+  accessEvents     AccessEvent[]
+  guardShifts      GuardShift[]
+  alerts           Alert[]
+  notifications    Notification[]
+  auditLogs        AuditLog[]
+  apiKeys          ApiKey[]
+  webhookEndpoints WebhookEndpoint[]
+  integrations     Integration[]
+  blocklist        BlocklistEntry[]
+  attachments      Attachment[]
+  flagOverrides    FeatureFlagOverride[]
+
+  @@index([status])
+  @@map("organizations")
+}
+
+model Branding {
+  id              String       @id @db.Uuid
+  organizationId  String       @unique @map("organization_id") @db.Uuid
+  logoUrl         String?      @map("logo_url")
+  faviconUrl      String?      @map("favicon_url")
+  primaryColor    String       @default("#5b8cff") @map("primary_color")
+  accentColor     String       @default("#2e5fff") @map("accent_color")
+  backgroundMode  BrandingMode @default(DARK) @map("background_mode")
+  fontFamily      String?      @map("font_family")
+  emailFromName   String?      @map("email_from_name")
+  emailSignatureHtml String?   @map("email_signature_html") @db.Text
+  customDomain    String?      @map("custom_domain")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@map("brandings")
+}
+
+// =====================================================================
+// Membership / Roles / Permissions
+// =====================================================================
+
+model Membership {
+  id                String           @id @db.Uuid
+  userId            String           @map("user_id") @db.Uuid
+  organizationId    String           @map("organization_id") @db.Uuid // TENANT
+  status            MembershipStatus @default(INVITED)
+  personId          String?          @map("person_id") @db.Uuid
+  invitedByUserId   String?          @map("invited_by_user_id") @db.Uuid
+  joinedAt          DateTime?        @map("joined_at")
+  lastSeenAt        DateTime?        @map("last_seen_at")
+  notificationPrefs Json             @default("{}") @map("notification_prefs")
+  createdAt         DateTime         @default(now()) @map("created_at")
+  updatedAt         DateTime         @updatedAt @map("updated_at")
+  deletedAt         DateTime?        @map("deleted_at")
+
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  person       Person?           @relation(fields: [personId], references: [id])
+  roles        MembershipRole[]
+  guardShifts  GuardShift[]
+
+  @@unique([userId, organizationId])
+  @@index([organizationId, status])
+  @@map("memberships")
+}
+
+model Role {
+  id             String   @id @db.Uuid
+  organizationId String?  @map("organization_id") @db.Uuid // null = system role
+  code           String
+  name           String
+  description    String?
+  isSystem       Boolean  @default(false) @map("is_system")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  organization     Organization?      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  rolePermissions  RolePermission[]
+  memberships      MembershipRole[]
+
+  @@unique([organizationId, code])
+  @@index([organizationId])
+  @@map("roles")
+}
+
+model Permission {
+  id          String   @id @db.Uuid
+  code        String   @unique // e.g. "residents:read"
+  resource    String
+  action      String
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  rolePermissions RolePermission[]
+
+  @@index([resource])
+  @@map("permissions")
+}
+
+model RolePermission {
+  roleId       String @map("role_id") @db.Uuid
+  permissionId String @map("permission_id") @db.Uuid
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model MembershipRole {
+  membershipId String @map("membership_id") @db.Uuid
+  roleId       String @map("role_id") @db.Uuid
+
+  membership Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([membershipId, roleId])
+  @@map("membership_roles")
+}
+
+model Invitation {
+  id              String    @id @db.Uuid
+  organizationId  String    @map("organization_id") @db.Uuid // TENANT
+  email           String    @db.Citext
+  tokenHash       String    @unique @map("token_hash")
+  roleCodes       String[]  @map("role_codes")
+  invitedByUserId String    @map("invited_by_user_id") @db.Uuid
+  acceptedByUserId String?  @map("accepted_by_user_id") @db.Uuid
+  expiresAt       DateTime  @map("expires_at")
+  acceptedAt      DateTime? @map("accepted_at")
+  revokedAt       DateTime? @map("revoked_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  organization     Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  invitedByUser    User         @relation("InvitationsSent", fields: [invitedByUserId], references: [id])
+  acceptedByUser   User?        @relation("InvitationsAccepted", fields: [acceptedByUserId], references: [id])
+
+  @@index([organizationId, email])
+  @@map("invitations")
+}
+
+// =====================================================================
+// Billing
+// =====================================================================
+
+model Subscription {
+  id                  String             @id @db.Uuid
+  organizationId      String             @unique @map("organization_id") @db.Uuid // TENANT
+  planId              String             @map("plan_id") @db.Uuid
+  status              SubscriptionStatus @default(TRIALING)
+  interval            BillingInterval    @default(MONTHLY)
+  mpPreapprovalId     String?            @unique @map("mp_preapproval_id")
+  trialEndsAt         DateTime?          @map("trial_ends_at")
+  currentPeriodStart  DateTime           @map("current_period_start")
+  currentPeriodEnd    DateTime           @map("current_period_end")
+  canceledAt          DateTime?          @map("canceled_at")
+  cancellationReason  String?            @map("cancellation_reason")
+  cancelAtPeriodEnd   Boolean            @default(false) @map("cancel_at_period_end")
+  seatsUsed           Int                @default(0) @map("seats_used")
+  accessesThisPeriod  Int                @default(0) @map("accesses_this_period")
+  metadata            Json               @default("{}")
+  createdAt           DateTime           @default(now()) @map("created_at")
+  updatedAt           DateTime           @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  plan         Plan         @relation(fields: [planId], references: [id])
+  invoices     Invoice[]
+
+  @@index([status])
+  @@map("subscriptions")
+}
+
+model Invoice {
+  id              String        @id @db.Uuid
+  organizationId  String        @map("organization_id") @db.Uuid // TENANT
+  subscriptionId  String?       @map("subscription_id") @db.Uuid
+  number          String
+  amountCents     Int           @map("amount_cents")
+  taxCents        Int           @default(0) @map("tax_cents")
+  totalCents      Int           @map("total_cents")
+  currency        String        @default("ARS")
+  status          InvoiceStatus @default(OPEN)
+  issuedAt        DateTime      @map("issued_at")
+  dueAt           DateTime      @map("due_at")
+  paidAt          DateTime?     @map("paid_at")
+  voidedAt        DateTime?     @map("voided_at")
+  mpPaymentId     String?       @map("mp_payment_id")
+  pdfUrl          String?       @map("pdf_url")
+  lineItems       Json          @default("[]") @map("line_items")
+  metadata        Json          @default("{}")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
+
+  @@unique([organizationId, number])
+  @@index([organizationId, issuedAt(sort: Desc)])
+  @@index([status])
+  @@map("invoices")
+}
+
+model PaymentMethod {
+  id             String   @id @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid // TENANT
+  mpCardId       String?  @map("mp_card_id")
+  last4          String?
+  brand          String?
+  holder         String?
+  expMonth       Int?     @map("exp_month")
+  expYear        Int?     @map("exp_year")
+  isDefault      Boolean  @default(false) @map("is_default")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("payment_methods")
+}
+
+// =====================================================================
+// People, Units, Residents, Vehicles
+// =====================================================================
+
+model Person {
+  id                  String       @id @db.Uuid
+  organizationId      String       @map("organization_id") @db.Uuid // TENANT
+  documentType        DocumentType @map("document_type")
+  documentNumber      String       @map("document_number")
+  documentNumberHash  String       @map("document_number_hash")
+  firstName           String       @map("first_name")
+  lastName            String       @map("last_name")
+  fullNameSearch      String       @map("full_name_search") // lowercased + unaccented for search
+  birthDate           DateTime?    @map("birth_date") @db.Date
+  gender              Gender?
+  phone               String?
+  email               String?      @db.Citext
+  photoUrl            String?      @map("photo_url")
+  notes               String?      @db.Text
+  metadata            Json         @default("{}")
+  createdAt           DateTime     @default(now()) @map("created_at")
+  updatedAt           DateTime     @updatedAt @map("updated_at")
+  deletedAt           DateTime?    @map("deleted_at")
+
+  organization     Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  residencies      Resident[]
+  vehicles         Vehicle[]        @relation("VehicleOwner")
+  authorizationsFor Authorization[] @relation("AuthForPerson")
+  accessEvents     AccessEvent[]    @relation("AccessPerson")
+  memberships      Membership[]
+  blocklistEntries BlocklistEntry[]
+
+  @@unique([organizationId, documentType, documentNumberHash])
+  @@index([organizationId, fullNameSearch])
+  @@index([organizationId, lastName, firstName])
+  @@map("persons")
+}
+
+model Unit {
+  id             String   @id @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid // TENANT
+  code           String
+  kind           UnitKind
+  addressLine    String?  @map("address_line")
+  zone           String?
+  metadata       Json     @default("{}")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+  deletedAt      DateTime? @map("deleted_at")
+
+  organization   Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  residents      Resident[]
+  authorizations Authorization[]
+
+  @@unique([organizationId, code])
+  @@index([organizationId])
+  @@map("units")
+}
+
+model Resident {
+  id             String           @id @db.Uuid
+  organizationId String           @map("organization_id") @db.Uuid // TENANT
+  personId       String           @map("person_id") @db.Uuid
+  unitId         String           @map("unit_id") @db.Uuid
+  relation       ResidentRelation
+  isActive       Boolean          @default(true) @map("is_active")
+  moveInAt       DateTime?        @map("move_in_at")
+  moveOutAt      DateTime?        @map("move_out_at")
+  metadata       Json             @default("{}")
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
+  deletedAt      DateTime?        @map("deleted_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  person       Person       @relation(fields: [personId], references: [id], onDelete: Restrict)
+  unit         Unit         @relation(fields: [unitId], references: [id], onDelete: Restrict)
+
+  @@unique([organizationId, personId, unitId])
+  @@index([organizationId, unitId])
+  @@index([organizationId, personId])
+  @@map("residents")
+}
+
+model Vehicle {
+  id                     String      @id @db.Uuid
+  organizationId         String      @map("organization_id") @db.Uuid // TENANT
+  plate                  String
+  plateNormalized        String      @map("plate_normalized")
+  kind                   VehicleKind @default(CAR)
+  make                   String?
+  model                  String?
+  color                  String?
+  year                   Int?
+  ownerPersonId          String?     @map("owner_person_id") @db.Uuid
+  isAuthorizedPermanent  Boolean     @default(false) @map("is_authorized_permanent")
+  photoUrl               String?     @map("photo_url")
+  notes                  String?
+  metadata               Json        @default("{}")
+  createdAt              DateTime    @default(now()) @map("created_at")
+  updatedAt              DateTime    @updatedAt @map("updated_at")
+  deletedAt              DateTime?   @map("deleted_at")
+
+  organization     Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  ownerPerson      Person?          @relation("VehicleOwner", fields: [ownerPersonId], references: [id])
+  authorizationsFor Authorization[] @relation("AuthForVehicle")
+  accessEvents     AccessEvent[]    @relation("AccessVehicle")
+  blocklistEntries BlocklistEntry[]
+
+  @@unique([organizationId, plateNormalized])
+  @@index([organizationId, plateNormalized])
+  @@index([organizationId, ownerPersonId])
+  @@map("vehicles")
+}
+
+// =====================================================================
+// Access — points, authorizations, events
+// =====================================================================
+
+model AccessPoint {
+  id             String          @id @db.Uuid
+  organizationId String          @map("organization_id") @db.Uuid // TENANT
+  name           String
+  kind           AccessPointKind @default(MIXED)
+  direction      AccessDirection @default(BOTH)
+  isActive       Boolean         @default(true) @map("is_active")
+  deviceConfig   Json            @default("{}") @map("device_config")
+  metadata       Json            @default("{}")
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  deletedAt      DateTime?       @map("deleted_at")
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  accessEvents AccessEvent[]
+  guardShifts  GuardShift[]
+
+  @@index([organizationId])
+  @@map("access_points")
+}
+
+model Authorization {
+  id              String              @id @db.Uuid
+  organizationId  String              @map("organization_id") @db.Uuid // TENANT
+  kind            AuthorizationKind
+  status          AuthorizationStatus @default(ACTIVE)
+  createdByUserId String              @map("created_by_user_id") @db.Uuid
+  forPersonId     String?             @map("for_person_id") @db.Uuid
+  forVehicleId    String?             @map("for_vehicle_id") @db.Uuid
+  forUnitId       String?             @map("for_unit_id") @db.Uuid
+  guestName       String?             @map("guest_name") // when forPersonId is null
+  validFrom       DateTime            @map("valid_from")
+  validTo         DateTime            @map("valid_to")
+  recurrence      Json?               // { days: [1,2,3], from: "08:00", to: "20:00" }
+  maxUses         Int?                @map("max_uses")
+  usesCount       Int                 @default(0) @map("uses_count")
+  qrToken         String?             @unique @map("qr_token")
+  qrExpiresAt     DateTime?           @map("qr_expires_at")
+  notes           String?
+  metadata        Json                @default("{}")
+  createdAt       DateTime            @default(now()) @map("created_at")
+  updatedAt       DateTime            @updatedAt @map("updated_at")
+  deletedAt       DateTime?           @map("deleted_at")
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  forPerson    Person?       @relation("AuthForPerson", fields: [forPersonId], references: [id])
+  forVehicle   Vehicle?      @relation("AuthForVehicle", fields: [forVehicleId], references: [id])
+  forUnit      Unit?         @relation(fields: [forUnitId], references: [id])
+  accessEvents AccessEvent[]
+
+  @@index([organizationId, status, validFrom, validTo])
+  @@index([organizationId, forPersonId])
+  @@index([organizationId, forVehicleId])
+  @@index([organizationId, forUnitId])
+  @@map("authorizations")
+}
+
+// AccessEvent is partitioned by occurredAt at the SQL level (see infra docs).
+// Prisma sees the parent table; partitions are managed via raw SQL.
+model AccessEvent {
+  id              String          @id @db.Uuid
+  organizationId  String          @map("organization_id") @db.Uuid // TENANT
+  accessPointId   String          @map("access_point_id") @db.Uuid
+  direction       AccessDirection
+  scanMethod      ScanMethod      @map("scan_method")
+  outcome         AccessOutcome
+  denialReason    DenialReason?   @map("denial_reason")
+  personId        String?         @map("person_id") @db.Uuid
+  vehicleId       String?         @map("vehicle_id") @db.Uuid
+  authorizationId String?         @map("authorization_id") @db.Uuid
+  guardUserId     String?         @map("guard_user_id") @db.Uuid
+  rawPayload      Json?           @map("raw_payload")
+  photoUrl        String?         @map("photo_url")
+  notes           String?
+  clientTs        DateTime?       @map("client_ts")
+  occurredAt      DateTime        @default(now()) @map("occurred_at")
+
+  organization  Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  accessPoint   AccessPoint    @relation(fields: [accessPointId], references: [id])
+  person        Person?        @relation("AccessPerson", fields: [personId], references: [id])
+  vehicle       Vehicle?       @relation("AccessVehicle", fields: [vehicleId], references: [id])
+  authorization Authorization? @relation(fields: [authorizationId], references: [id])
+
+  @@index([organizationId, occurredAt(sort: Desc)])
+  @@index([organizationId, accessPointId, occurredAt(sort: Desc)])
+  @@index([organizationId, personId, occurredAt(sort: Desc)])
+  @@index([organizationId, vehicleId, occurredAt(sort: Desc)])
+  @@index([organizationId, outcome, occurredAt(sort: Desc)])
+  @@map("access_events")
+}
+
+model GuardShift {
+  id             String    @id @db.Uuid
+  organizationId String    @map("organization_id") @db.Uuid // TENANT
+  membershipId   String    @map("membership_id") @db.Uuid
+  accessPointId  String?   @map("access_point_id") @db.Uuid
+  startedAt      DateTime  @map("started_at")
+  endedAt        DateTime? @map("ended_at")
+  handoverNotes  String?   @map("handover_notes")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  membership   Membership   @relation(fields: [membershipId], references: [id])
+  accessPoint  AccessPoint? @relation(fields: [accessPointId], references: [id])
+
+  @@index([organizationId, startedAt(sort: Desc)])
+  @@index([organizationId, membershipId])
+  @@map("guard_shifts")
+}
+
+// =====================================================================
+// Alerts, Notifications, Audit
+// =====================================================================
+
+model Alert {
+  id                    String        @id @db.Uuid
+  organizationId        String        @map("organization_id") @db.Uuid // TENANT
+  kind                  AlertKind
+  severity              AlertSeverity
+  status                AlertStatus   @default(OPEN)
+  title                 String
+  description           String?
+  triggeredByEventId    String?       @map("triggered_by_event_id") @db.Uuid
+  triggeredByUserId     String?       @map("triggered_by_user_id") @db.Uuid
+  acknowledgedByUserId  String?       @map("acknowledged_by_user_id") @db.Uuid
+  acknowledgedAt        DateTime?     @map("acknowledged_at")
+  resolvedByUserId      String?       @map("resolved_by_user_id") @db.Uuid
+  resolvedAt            DateTime?     @map("resolved_at")
+  metadata              Json          @default("{}")
+  createdAt             DateTime      @default(now()) @map("created_at")
+  updatedAt             DateTime      @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, status, severity, createdAt(sort: Desc)])
+  @@map("alerts")
+}
+
+model Notification {
+  id             String              @id @db.Uuid
+  organizationId String              @map("organization_id") @db.Uuid // TENANT
+  channel        NotificationChannel
+  toAddress      String              @map("to_address")
+  templateCode   String              @map("template_code")
+  payload        Json                @default("{}")
+  status         NotificationStatus  @default(PENDING)
+  attempts       Int                 @default(0)
+  lastError      String?             @map("last_error")
+  sentAt         DateTime?           @map("sent_at")
+  providerMessageId String?          @map("provider_message_id")
+  createdAt      DateTime            @default(now()) @map("created_at")
+  updatedAt      DateTime            @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, status])
+  @@index([status, createdAt])
+  @@map("notifications")
+}
+
+model AuditLog {
+  id             String   @id @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid // TENANT
+  actorUserId    String?  @map("actor_user_id") @db.Uuid
+  action         String
+  resourceType   String   @map("resource_type")
+  resourceId     String?  @map("resource_id")
+  before         Json?
+  after          Json?
+  ip             String?
+  userAgent      String?  @map("user_agent")
+  metadata       Json     @default("{}")
+  occurredAt     DateTime @default(now()) @map("occurred_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, occurredAt(sort: Desc)])
+  @@index([organizationId, resourceType, resourceId])
+  @@index([organizationId, actorUserId, occurredAt(sort: Desc)])
+  @@map("audit_logs")
+}
+
+// =====================================================================
+// API keys, webhooks, integrations
+// =====================================================================
+
+model ApiKey {
+  id             String       @id @db.Uuid
+  organizationId String       @map("organization_id") @db.Uuid // TENANT
+  name           String
+  prefix         String       // e.g. "bzk_live_abc12345"
+  hash           String       @unique
+  scopes         ApiKeyScope[] @default([])
+  lastUsedAt     DateTime?    @map("last_used_at")
+  expiresAt      DateTime?    @map("expires_at")
+  revokedAt      DateTime?    @map("revoked_at")
+  createdByUserId String      @map("created_by_user_id") @db.Uuid
+  createdAt      DateTime     @default(now()) @map("created_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("api_keys")
+}
+
+model WebhookEndpoint {
+  id              String              @id @db.Uuid
+  organizationId  String              @map("organization_id") @db.Uuid // TENANT
+  url             String
+  secret          String
+  events          WebhookOutEvent[]   @default([])
+  isActive        Boolean             @default(true) @map("is_active")
+  failureCount    Int                 @default(0) @map("failure_count")
+  lastDeliveryAt  DateTime?           @map("last_delivery_at")
+  lastErrorAt     DateTime?           @map("last_error_at")
+  lastError       String?             @map("last_error")
+  disabledAt      DateTime?           @map("disabled_at")
+  createdAt       DateTime            @default(now()) @map("created_at")
+  updatedAt       DateTime            @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("webhook_endpoints")
+}
+
+model Integration {
+  id             String          @id @db.Uuid
+  organizationId String          @map("organization_id") @db.Uuid // TENANT
+  kind           IntegrationKind
+  name           String
+  config         Json            @default("{}") // sensitive fields encrypted at app layer
+  isActive       Boolean         @default(true) @map("is_active")
+  lastCheckAt    DateTime?       @map("last_check_at")
+  lastError      String?         @map("last_error")
+  metadata       Json            @default("{}")
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, kind, name])
+  @@index([organizationId])
+  @@map("integrations")
+}
+
+// =====================================================================
+// Blocklist & Attachments
+// =====================================================================
+
+model BlocklistEntry {
+  id             String        @id @db.Uuid
+  organizationId String        @map("organization_id") @db.Uuid // TENANT
+  kind           BlocklistKind
+  personId       String?       @map("person_id") @db.Uuid
+  vehicleId      String?       @map("vehicle_id") @db.Uuid
+  documentNumber String?       @map("document_number")
+  plate          String?
+  reason         String
+  addedByUserId  String        @map("added_by_user_id") @db.Uuid
+  expiresAt      DateTime?     @map("expires_at")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  person       Person?      @relation(fields: [personId], references: [id])
+  vehicle      Vehicle?     @relation(fields: [vehicleId], references: [id])
+
+  @@index([organizationId, documentNumber])
+  @@index([organizationId, plate])
+  @@index([organizationId, personId])
+  @@index([organizationId, vehicleId])
+  @@map("blocklist_entries")
+}
+
+model Attachment {
+  id              String         @id @db.Uuid
+  organizationId  String         @map("organization_id") @db.Uuid // TENANT
+  kind            AttachmentKind
+  entityType      String         @map("entity_type")
+  entityId        String         @map("entity_id") @db.Uuid
+  s3Key           String         @map("s3_key")
+  mime            String
+  sizeBytes       Int            @map("size_bytes")
+  uploadedByUserId String?       @map("uploaded_by_user_id") @db.Uuid
+  metadata        Json           @default("{}")
+  createdAt       DateTime       @default(now()) @map("created_at")
+  deletedAt       DateTime?      @map("deleted_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, entityType, entityId])
+  @@map("attachments")
+}

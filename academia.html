@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="BZ Academia - Formación y capacitación profesional en seguridad privada" />
+  <title>BZ Academia - BZ Seguridad Privada</title>
+  <link rel="shortcut icon" href="images/favicon.png" type="">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/responsive.css" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+
+    body { background: #0a0a0a; color: #fff; }
+
+    /* NAV */
+    .ac-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0;
+    }
+    .ac-nav .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .ac-nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 70px;
+    }
+    .ac-logo img { height: 38px; }
+    .ac-menu { display: flex; align-items: center; gap: 32px; list-style: none; margin: 0; padding: 0; }
+    .ac-menu a {
+      color: rgba(255,255,255,0.7); text-decoration: none;
+      font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      transition: color 0.2s;
+    }
+    .ac-menu a:hover, .ac-menu a.active { color: #fff; }
+    .ac-cta {
+      background: #fff; color: #000 !important;
+      padding: 9px 22px; border-radius: 4px;
+      font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      text-decoration: none; transition: background 0.2s, color 0.2s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .ac-cta:hover { background: #e0e0e0; color: #000 !important; text-decoration: none; }
+    .ac-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
+    .ac-hamburger span { display: block; width: 24px; height: 2px; background: #fff; margin: 5px 0; transition: all 0.3s; }
+
+    @media (max-width: 768px) {
+      .ac-menu { display: none; }
+      .ac-hamburger { display: block; }
+      .ac-menu.open {
+        display: flex; flex-direction: column; gap: 0;
+        position: fixed; top: 70px; left: 0; right: 0;
+        background: #000; padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      .ac-menu.open li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    }
+
+    /* HERO */
+    .ac-hero {
+      min-height: 100vh;
+      background: #000;
+      display: flex; align-items: center;
+      padding: 120px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ac-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 60% 50%, rgba(255,255,255,0.04) 0%, transparent 70%);
+    }
+    .ac-hero .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; text-align: center; }
+    .ac-hero-label {
+      display: inline-block;
+      font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 3px;
+      color: rgba(255,255,255,0.5);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 6px 16px; border-radius: 20px;
+      margin-bottom: 28px;
+    }
+    .ac-hero h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(42px, 6.5vw, 82px);
+      font-weight: 700; line-height: 1.05;
+      text-transform: uppercase; letter-spacing: 2px;
+      color: #fff; margin-bottom: 24px;
+      text-align: center;
+    }
+    .ac-hero h1 em { font-style: normal; color: rgba(255,255,255,0.35); font-size: 0.6em; }
+    .ac-hero p {
+      font-size: 17px; color: rgba(255,255,255,0.55);
+      max-width: 560px; line-height: 1.75; margin-bottom: 40px;
+      text-align: center; margin-left: auto; margin-right: auto;
+    }
+    .ac-hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+    .ac-btn-primary {
+      background: #fff; color: #000;
+      padding: 14px 32px; border-radius: 4px;
+      font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      text-decoration: none; transition: background 0.2s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .ac-btn-primary:hover { background: #ddd; color: #000; text-decoration: none; }
+    .ac-btn-outline {
+      border: 1px solid rgba(255,255,255,0.3); color: #fff;
+      padding: 14px 32px; border-radius: 4px;
+      font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      text-decoration: none; transition: border-color 0.2s, background 0.2s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .ac-btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.06); color: #fff; text-decoration: none; }
+
+    /* FEATURES BAR */
+    .ac-features-bar {
+      background: #111; border-top: 1px solid rgba(255,255,255,0.07);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 28px 0; overflow: hidden;
+    }
+    .ac-features-bar .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .ac-features-list {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 20px;
+    }
+    .ac-feature-item { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .ac-feature-item i { font-size: 20px; color: rgba(255,255,255,0.6); }
+    .ac-feature-item span {
+      font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.7);
+    }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @media (max-width: 768px) {
+      .ac-features-bar .container { padding: 0; }
+      .ac-features-list {
+        display: flex; flex-wrap: nowrap; gap: 40px;
+        animation: ticker 18s linear infinite;
+        width: max-content;
+        justify-content: flex-start;
+      }
+    }
+
+    /* GALLERY */
+    .ac-gallery {
+      background: #0a0a0a;
+      padding: 90px 0;
+    }
+    .ac-gallery .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .ac-section-label {
+      font-family: 'Rajdhani', sans-serif; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 3px;
+      color: rgba(255,255,255,0.4); margin-bottom: 12px;
+    }
+    .ac-section-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(32px, 4vw, 48px); font-weight: 700;
+      text-transform: uppercase; color: #fff;
+      margin-bottom: 50px; letter-spacing: 1px;
+    }
+    .ac-section-title span { color: rgba(255,255,255,0.35); }
+
+    .ac-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 991px) { .ac-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px)  { .ac-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
+
+    .ac-card {
+      position: relative;
+      aspect-ratio: 3/4;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #1a1a1a;
+      cursor: pointer;
+    }
+    .ac-card img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.5s ease;
+      filter: brightness(0.9);
+    }
+    .ac-card:hover img { transform: scale(1.06); filter: brightness(1); }
+    .ac-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .ac-card:hover .ac-card-overlay { opacity: 1; }
+    .ac-card-num {
+      position: absolute; top: 12px; left: 14px;
+      font-family: 'Rajdhani', sans-serif; font-size: 11px; font-weight: 700;
+      color: rgba(255,255,255,0.4); letter-spacing: 1px;
+    }
+
+    /* LIGHTBOX */
+    .ac-lightbox {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.92); align-items: center; justify-content: center;
+    }
+    .ac-lightbox.open { display: flex; }
+    .ac-lightbox img {
+      max-width: 90vw; max-height: 90vh;
+      object-fit: contain; border-radius: 4px;
+      box-shadow: 0 0 60px rgba(0,0,0,0.8);
+    }
+    .ac-lightbox-close {
+      position: absolute; top: 20px; right: 28px;
+      font-size: 36px; color: rgba(255,255,255,0.7);
+      cursor: pointer; line-height: 1; background: none; border: none;
+      transition: color 0.2s;
+    }
+    .ac-lightbox-close:hover { color: #fff; }
+    .ac-card { cursor: zoom-in; }
+
+    /* INFO SECTION */
+    .ac-info {
+      background: #000;
+      padding: 90px 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .ac-info .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .ac-info-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    @media (max-width: 768px) { .ac-info-grid { grid-template-columns: 1fr; gap: 40px; } }
+    .ac-info-text h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(28px, 3.5vw, 42px); font-weight: 700;
+      text-transform: uppercase; color: #fff;
+      margin-bottom: 20px; letter-spacing: 1px;
+    }
+    .ac-info-text p { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.75; margin-bottom: 16px; }
+    .ac-checklist { list-style: none; padding: 0; margin: 24px 0 32px; }
+    .ac-checklist li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 14px; color: rgba(255,255,255,0.7);
+      margin-bottom: 12px; line-height: 1.5;
+    }
+    .ac-checklist li i { color: #fff; margin-top: 2px; flex-shrink: 0; }
+    .ac-info-cards { display: flex; flex-direction: column; gap: 16px; }
+    .ac-info-card {
+      background: #111; border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px; padding: 24px;
+      transition: border-color 0.2s;
+    }
+    .ac-info-card:hover { border-color: rgba(255,255,255,0.2); }
+    .ac-info-card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .ac-info-card-head i { font-size: 20px; color: #fff; opacity: 0.7; }
+    .ac-info-card-head h5 {
+      font-family: 'Rajdhani', sans-serif; font-size: 16px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px; color: #fff; margin: 0;
+    }
+    .ac-info-card p { font-size: 13px; color: rgba(255,255,255,0.5); margin: 0; line-height: 1.6; }
+
+    /* COURSE CARDS */
+    .ac-courses {
+      background: #000; padding: 90px 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .ac-courses .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .ac-courses-header { text-align: center; margin-bottom: 60px; }
+    .ac-courses-header h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(32px, 5vw, 60px); font-weight: 700;
+      text-transform: uppercase; color: #fff;
+      line-height: 1.1; margin-bottom: 16px; letter-spacing: 1px;
+    }
+    .ac-courses-header p { font-size: 16px; color: rgba(255,255,255,0.5); max-width: 600px; margin: 0 auto; }
+    .ac-courses-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    .ac-courses-grid--2col {
+      grid-template-columns: repeat(2, minmax(0, 400px));
+      justify-content: center;
+    }
+    @media (max-width: 991px) {
+      .ac-courses-grid { grid-template-columns: 1fr; }
+      .ac-courses-grid--2col { grid-template-columns: 1fr; }
+    }
+    .ac-course-card {
+      background: #111; border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px; padding: 32px;
+      display: flex; flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .ac-course-card:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-3px); }
+    .ac-course-card-header {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 16px;
+    }
+    .ac-course-card-icon {
+      width: 52px; height: 52px; border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .ac-course-card-icon i { font-size: 22px; color: #fff; }
+    .ac-course-card-header h4 {
+      font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700;
+      text-transform: uppercase; color: #fff; margin-bottom: 2px; letter-spacing: 0.5px;
+    }
+    .ac-course-card .ac-card-tag {
+      font-size: 12px; color: rgba(255,255,255,0.4); font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0;
+    }
+    .ac-course-card p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.65; margin-bottom: 20px; }
+    .ac-course-checklist { list-style: none; padding: 0; margin: 0 0 28px; flex: 1; }
+    .ac-course-checklist li {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; color: rgba(255,255,255,0.65);
+      margin-bottom: 10px;
+    }
+    .ac-course-checklist li i { color: #4ade80; font-size: 13px; }
+
+    /* TESTIMONIALS */
+    .ac-testimonials {
+      background: #000; padding: 90px 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .ac-testimonials .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .ac-testimonials-header { text-align: center; margin-bottom: 60px; }
+    .ac-testimonials-header h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(32px, 5vw, 56px); font-weight: 700;
+      text-transform: uppercase; color: #fff; letter-spacing: 1px; margin-bottom: 12px;
+    }
+    .ac-testimonials-header p { font-size: 15px; color: rgba(255,255,255,0.45); }
+    .ac-testi-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    @media (max-width: 991px) {
+      .ac-testimonials { overflow: hidden; }
+      .ac-testi-grid {
+        display: flex; flex-wrap: nowrap; gap: 16px;
+        animation: ticker 28s linear infinite;
+        width: max-content;
+      }
+      .ac-testi-card {
+        width: 280px; flex-shrink: 0;
+      }
+    }
+    .ac-testi-card {
+      background: #111; border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px; padding: 28px 28px 24px;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: border-color 0.2s;
+    }
+    .ac-testi-card:hover { border-color: rgba(255,255,255,0.2); }
+    .ac-testi-stars { display: flex; gap: 4px; }
+    .ac-testi-stars i { color: #f59e0b; font-size: 14px; }
+    .ac-testi-card blockquote {
+      font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.7;
+      margin: 0; font-style: italic;
+    }
+    .ac-testi-author { display: flex; align-items: center; gap: 14px; margin-top: auto; }
+    .ac-testi-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .ac-testi-avatar i { font-size: 20px; color: rgba(255,255,255,0.5); }
+    .ac-testi-name {
+      font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700;
+      text-transform: uppercase; color: #fff; letter-spacing: 0.5px; margin-bottom: 2px;
+    }
+    .ac-testi-role { font-size: 12px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 1px; }
+    .ac-course-card .ac-btn-wa {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: #fff; color: #000;
+      padding: 12px 20px; border-radius: 5px;
+      font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      text-decoration: none; transition: background 0.2s;
+    }
+    .ac-course-card .ac-btn-wa:hover { background: #ddd; color: #000; text-decoration: none; }
+
+    /* INSTALACIONES */
+    .ac-instalaciones {
+      background: #0a0a0a; padding: 90px 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .ac-instalaciones .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .ac-instalaciones-header { text-align: center; margin-bottom: 60px; }
+    .ac-instalaciones-header h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(32px, 5vw, 60px); font-weight: 700;
+      text-transform: uppercase; color: #fff;
+      line-height: 1.1; margin-bottom: 16px;
+    }
+    .ac-instalaciones-header p { font-size: 16px; color: rgba(255,255,255,0.5); max-width: 620px; margin: 0 auto; }
+    .ac-inst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+    @media (max-width: 767px) { .ac-inst-grid { grid-template-columns: 1fr; gap: 30px; } }
+    .ac-inst-item { text-align: center; }
+    .ac-inst-icon {
+      width: 70px; height: 70px; border-radius: 50%;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .ac-inst-icon i { font-size: 28px; color: #fff; }
+    .ac-inst-item h4 {
+      font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700;
+      text-transform: uppercase; color: #fff; margin-bottom: 12px; letter-spacing: 1px;
+    }
+    .ac-inst-item p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+
+    /* CTA BOTTOM */
+    .ac-cta-section {
+      background: #111; border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 80px 0; text-align: center;
+    }
+    .ac-cta-section .container { max-width: 700px; margin: 0 auto; padding: 0 24px; }
+    .ac-cta-section h2 {
+      font-family: 'Rajdhani', sans-serif; font-size: clamp(28px, 4vw, 46px);
+      font-weight: 700; text-transform: uppercase; color: #fff;
+      margin-bottom: 14px; letter-spacing: 1px;
+    }
+    .ac-cta-section p { font-size: 15px; color: rgba(255,255,255,0.5); margin-bottom: 32px; }
+
+    /* FOOTER */
+    .ac-footer {
+      background: #000; border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 50px 0 30px;
+    }
+    .ac-footer .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .ac-footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 24px; }
+    .ac-footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); text-align: center; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="ac-nav">
+    <div class="container">
+      <div class="ac-nav-inner">
+        <a href="index.html" class="ac-logo">
+          <img src="images/logo.png" alt="BZ Seguridad">
+        </a>
+        <ul class="ac-menu" id="acMenu">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="academia.html" class="active">BZ Academia</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li>
+            <a href="https://wa.me/5491124808090?text=Hola%2C%20quisiera%20contactarme%20con%20BZ%20Seguridad" target="_blank" class="ac-cta">
+              <i class="fa fa-whatsapp"></i> Contactanos
+            </a>
+          </li>
+        </ul>
+        <button class="ac-hamburger" id="acHamburger" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="ac-hero">
+    <div class="container">
+      <div class="ac-hero-label">Formación Profesional</div>
+      <h1>Academia de Seguridad<br><em style="display:block; margin-top:0.2em;">Clases Profesionales</em></h1>
+      <p>Capacitación de alto nivel para agentes de seguridad privada. Entrenamiento práctico, instructores certificados y metodología de primer nivel.</p>
+      <div class="ac-hero-btns">
+        <a href="https://wa.me/5491124808090?text=Hola%2C%20quisiera%20inscribirme%20en%20BZ%20Academia" target="_blank" class="ac-btn-primary">
+          <i class="fa fa-whatsapp"></i> Inscribirse
+        </a>
+        <a href="#galeria" class="ac-btn-outline">Ver Galería</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES BAR -->
+  <div class="ac-features-bar">
+    <div class="container">
+      <div class="ac-features-list">
+        <div class="ac-feature-item">
+          <i class="fa fa-shield"></i>
+          <span>Agentes Certificados</span>
+        </div>
+        <div class="ac-feature-item">
+          <i class="fa fa-clock-o"></i>
+          <span>Formación Intensiva</span>
+        </div>
+        <div class="ac-feature-item">
+          <i class="fa fa-users"></i>
+          <span>Grupos Reducidos</span>
+        </div>
+        <div class="ac-feature-item">
+          <i class="fa fa-certificate"></i>
+          <span>Certificación Oficial</span>
+        </div>
+        <div class="ac-feature-item">
+          <i class="fa fa-map-marker"></i>
+          <span>Buenos Aires</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GESTORIA / CREDENCIALES -->
+  <section class="ac-courses">
+    <div class="container">
+      <div class="ac-courses-header">
+        <h2>Gestoría para<br>Credencial de Legítimo Usuario</h2>
+        <p>Te asesoramos para obtener tu credencial de legítimo usuario (CLU) y certificado de idoneidad de tiro. Gestoría integral con mandatarios habilitados.</p>
+      </div>
+      <div class="ac-courses-grid">
+        <div class="ac-course-card">
+          <div class="ac-course-card-header">
+            <div class="ac-course-card-icon"><i class="fa fa-id-card"></i></div>
+            <div><h4>Credencial CLU Legítimo Usuario</h4><div class="ac-card-tag">Curso Completo</div></div>
+          </div>
+          <p>Curso completo para obtener tu credencial de legítimo usuario de armas de fuego (CLU).</p>
+          <ul class="ac-course-checklist">
+            <li><i class="fa fa-check-circle"></i> Teoría completa</li>
+            <li><i class="fa fa-check-circle"></i> Práctica supervisada</li>
+            <li><i class="fa fa-check-circle"></i> Tramitación incluida</li>
+          </ul>
+          <a href="https://wa.me/5491124808090?text=Consulta%20sobre%20Credencial%20CLU" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Más Información</a>
+        </div>
+        <div class="ac-course-card">
+          <div class="ac-course-card-header">
+            <div class="ac-course-card-icon"><i class="fa fa-shield"></i></div>
+            <div><h4>Portación de Armas</h4><div class="ac-card-tag">Curso Avanzado</div></div>
+          </div>
+          <p>Formación especializada para la portación legal de armas de fuego, con foco en la legislación.</p>
+          <ul class="ac-course-checklist">
+            <li><i class="fa fa-check-circle"></i> Legislación vigente</li>
+            <li><i class="fa fa-check-circle"></i> Técnicas avanzadas</li>
+            <li><i class="fa fa-check-circle"></i> Evaluación final</li>
+          </ul>
+          <a href="https://wa.me/5491124808090?text=Consulta%20sobre%20Portacion%20de%20Armas" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Más Información</a>
+        </div>
+        <div class="ac-course-card">
+          <div class="ac-course-card-header">
+            <div class="ac-course-card-icon"><i class="fa fa-certificate"></i></div>
+            <div><h4>Idoneidad de Tiro</h4><div class="ac-card-tag">Certificado Oficial</div></div>
+          </div>
+          <p>Obtén tu certificado de idoneidad de tiro, requisito indispensable para tus trámites.</p>
+          <ul class="ac-course-checklist">
+            <li><i class="fa fa-check-circle"></i> Seguridad integral</li>
+            <li><i class="fa fa-check-circle"></i> Manejo técnico</li>
+            <li><i class="fa fa-check-circle"></i> Ética profesional</li>
+          </ul>
+          <a href="https://wa.me/5491124808090?text=Consulta%20sobre%20Idoneidad%20de%20Tiro" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Más Información</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CURSOS -->
+  <section class="ac-courses" style="background:#111; padding-top:60px; padding-bottom:90px;">
+    <div class="container">
+      <div class="ac-courses-header">
+        <h2>Clases de Tiro<br>y Servicios de Gestoría</h2>
+        <p>Ofrecemos clases de tiro para todos los niveles, desde la idoneidad de tiro para principiantes hasta cursos avanzados.</p>
+      </div>
+      <div class="ac-courses-grid ac-courses-grid--2col">
+        <div class="ac-course-card" style="background:#1a1a1a;">
+          <div class="ac-course-card-header">
+            <div class="ac-course-card-icon"><i class="fa fa-building"></i></div>
+            <div><h4>Gestoría RENAR</h4><div class="ac-card-tag">Particulares y Empresas</div></div>
+          </div>
+          <p>Servicio de gestoría integral para todo tipo de trámites ante RENAR, agilizando la obtención de tu credencial de legítimo usuario.</p>
+          <ul class="ac-course-checklist">
+            <li><i class="fa fa-check-circle"></i> Trámites de tenencia y portación</li>
+            <li><i class="fa fa-check-circle"></i> Inscripciones y renovaciones</li>
+            <li><i class="fa fa-check-circle"></i> Asesoramiento para empresas de seguridad</li>
+          </ul>
+          <a href="https://wa.me/5491124808090?text=Consulta%20sobre%20Gestoria%20RENAR" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Consultar por WhatsApp</a>
+        </div>
+        <div class="ac-course-card" style="background:#1a1a1a;">
+          <div class="ac-course-card-header">
+            <div class="ac-course-card-icon"><i class="fa fa-graduation-cap"></i></div>
+            <div><h4>Formación de Instructores</h4><div class="ac-card-tag">Certificación Profesional</div></div>
+          </div>
+          <p>Conviértete en un instructor de tiro certificado. Curso completo con prácticas y evaluación final para tu habilitación.</p>
+          <ul class="ac-course-checklist">
+            <li><i class="fa fa-check-circle"></i> Pedagogía de la enseñanza</li>
+            <li><i class="fa fa-check-circle"></i> Prácticas supervisadas</li>
+            <li><i class="fa fa-check-circle"></i> Normativa y legislación vigente</li>
+          </ul>
+          <a href="https://wa.me/5491124808090?text=Consulta%20sobre%20Formacion%20de%20Instructores" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Consultar por WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CURSOS AVANZADOS -->
+  <section class="ac-courses" style="background:#0a0a0a; padding-top:0; padding-bottom:90px;">
+    <div class="container">
+      <div class="ac-courses-grid">
+        <div class="ac-course-card">
+          <div class="ac-course-card-header">
+            <div class="ac-course-card-icon"><i class="fa fa-crosshairs"></i></div>
+            <div><h4>Clases de Tiro Avanzadas</h4><div class="ac-card-tag">Nivel Profesional</div></div>
+          </div>
+          <p>Técnicas avanzadas de tiro y manejo táctico de armas cortas y largas para personal de fuerzas.</p>
+          <ul class="ac-course-checklist">
+            <li><i class="fa fa-check-circle"></i> Tiro defensivo y táctico</li>
+            <li><i class="fa fa-check-circle"></i> Tiro en movimiento</li>
+            <li><i class="fa fa-check-circle"></i> Resolución de situaciones bajo estrés</li>
+          </ul>
+          <a href="https://wa.me/5491124808090?text=Consulta%20sobre%20Clases%20Avanzadas" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Consultar por WhatsApp</a>
+        </div>
+        <div class="ac-course-card">
+          <div class="ac-course-card-header">
+            <div class="ac-course-card-icon"><i class="fa fa-moon-o"></i></div>
+            <div><h4>Jornada Nocturna</h4><div class="ac-card-tag">Baja Iluminación</div></div>
+          </div>
+          <p>Entrenamiento especializado en condiciones de baja luminosidad y nocturnas para profesionales.</p>
+          <ul class="ac-course-checklist">
+            <li><i class="fa fa-check-circle"></i> Uso de linternas tácticas</li>
+            <li><i class="fa fa-check-circle"></i> Identificación de blancos</li>
+            <li><i class="fa fa-check-circle"></i> Técnicas en baja luz</li>
+          </ul>
+          <a href="https://wa.me/5491124808090?text=Consulta%20sobre%20Jornada%20Nocturna" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Consultar por WhatsApp</a>
+        </div>
+        <div class="ac-course-card">
+          <div class="ac-course-card-header">
+            <div class="ac-course-card-icon"><i class="fa fa-bullseye"></i></div>
+            <div><h4>Armas Cortas y Largas</h4><div class="ac-card-tag">Especialización Dual</div></div>
+          </div>
+          <p>Clases de tiro que abarcan tanto pistolas como rifles y escopetas, desde fundamentos a transiciones.</p>
+          <ul class="ac-course-checklist">
+            <li><i class="fa fa-check-circle"></i> Fundamentos de pistola</li>
+            <li><i class="fa fa-check-circle"></i> Manejo de rifle/escopeta</li>
+            <li><i class="fa fa-check-circle"></i> Transición de armas</li>
+          </ul>
+          <a href="https://wa.me/5491124808090?text=Consulta%20sobre%20Armas%20Cortas%20y%20Largas" target="_blank" class="ac-btn-wa"><i class="fa fa-whatsapp"></i> Consultar por WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALACIONES -->
+  <section class="ac-instalaciones">
+    <div class="container">
+      <div class="ac-instalaciones-header">
+        <h2>Instalaciones y<br>Equipamiento</h2>
+        <p>Contamos con todo lo necesario para una formación profesional en un entorno seguro y de primer nivel.</p>
+      </div>
+      <div class="ac-inst-grid">
+        <div class="ac-inst-item">
+          <div class="ac-inst-icon"><i class="fa fa-building"></i></div>
+          <h4>Instalaciones Propias</h4>
+          <p>Espacios equipados para la práctica táctica, simulacros operativos y entrenamiento físico supervisado.</p>
+        </div>
+        <div class="ac-inst-item">
+          <div class="ac-inst-icon"><i class="fa fa-shield"></i></div>
+          <h4>Máxima Seguridad</h4>
+          <p>Protocolos de seguridad internacionales y equipamiento de protección completo para una práctica segura y controlada.</p>
+        </div>
+        <div class="ac-inst-item">
+          <div class="ac-inst-icon"><i class="fa fa-users"></i></div>
+          <h4>Instructores Certificados</h4>
+          <p>Equipo de instructores con experiencia en fuerzas de seguridad y más de 15 años en el sector privado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="ac-gallery" id="galeria">
+    <div class="container">
+      <div class="ac-grid">
+        <div class="ac-card">
+          <img src="images/a1.jpeg" alt="BZ Academia">
+          <div class="ac-card-overlay"></div>
+          <div class="ac-card-num">01</div>
+        </div>
+        <div class="ac-card">
+          <img src="images/a2.jpeg" alt="BZ Academia">
+          <div class="ac-card-overlay"></div>
+          <div class="ac-card-num">02</div>
+        </div>
+        <div class="ac-card">
+          <img src="images/a3.jpeg" alt="BZ Academia">
+          <div class="ac-card-overlay"></div>
+          <div class="ac-card-num">03</div>
+        </div>
+        <div class="ac-card">
+          <img src="images/a4.jpeg" alt="BZ Academia">
+          <div class="ac-card-overlay"></div>
+          <div class="ac-card-num">04</div>
+        </div>
+        <div class="ac-card">
+          <img src="images/a5.jpeg" alt="BZ Academia">
+          <div class="ac-card-overlay"></div>
+          <div class="ac-card-num">05</div>
+        </div>
+        <div class="ac-card">
+          <img src="images/a6.jpeg" alt="BZ Academia">
+          <div class="ac-card-overlay"></div>
+          <div class="ac-card-num">06</div>
+        </div>
+        <div class="ac-card">
+          <img src="images/a7.jpeg" alt="BZ Academia">
+          <div class="ac-card-overlay"></div>
+          <div class="ac-card-num">07</div>
+        </div>
+        <div class="ac-card">
+          <img src="images/a8.jpeg" alt="BZ Academia">
+          <div class="ac-card-overlay"></div>
+          <div class="ac-card-num">08</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section class="ac-testimonials">
+    <div class="container">
+      <div class="ac-testimonials-header">
+        <div class="ac-section-label">Lo que dicen nuestros alumnos</div>
+        <h2>Testimonios de <span style="color:rgba(255,255,255,0.35)">Clientes</span></h2>
+        <p>Profesionales formados en BZ Academia que hoy integran los mejores equipos del sector.</p>
+      </div>
+      <div class="ac-testi-grid" style="grid-template-columns: repeat(3,1fr);">
+
+        <div class="ac-testi-card">
+          <div class="ac-testi-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+          <blockquote>"Excelente formación, instructores muy profesionales. Obtuve mi CLU sin problemas."</blockquote>
+          <div class="ac-testi-author">
+            <div class="ac-testi-avatar"><i class="fa fa-user"></i></div>
+            <div><div class="ac-testi-name">Carlos Mendoza</div><div class="ac-testi-role">Alumno CLU</div></div>
+          </div>
+        </div>
+
+        <div class="ac-testi-card">
+          <div class="ac-testi-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+          <blockquote>"Los cursos nocturnos me permitieron formarme sin afectar mi trabajo. Muy recomendable."</blockquote>
+          <div class="ac-testi-author">
+            <div class="ac-testi-avatar"><i class="fa fa-user"></i></div>
+            <div><div class="ac-testi-name">Ana García</div><div class="ac-testi-role">Jornada Nocturna</div></div>
+          </div>
+        </div>
+
+        <div class="ac-testi-card">
+          <div class="ac-testi-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+          <blockquote>"Curso de idoneidad completo y bien estructurado. Instalaciones de primera calidad."</blockquote>
+          <div class="ac-testi-author">
+            <div class="ac-testi-avatar"><i class="fa fa-user"></i></div>
+            <div><div class="ac-testi-name">Roberto Silva</div><div class="ac-testi-role">Idoneidad de Tiro</div></div>
+          </div>
+        </div>
+
+        <div class="ac-testi-card">
+          <div class="ac-testi-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+          <blockquote>"La paciencia y el profesionalismo de los instructores es destacable. Aprendí muchísimo."</blockquote>
+          <div class="ac-testi-author">
+            <div class="ac-testi-avatar"><i class="fa fa-user"></i></div>
+            <div><div class="ac-testi-name">Javier Fernández</div><div class="ac-testi-role">Clases de Tiro Avanzadas</div></div>
+          </div>
+        </div>
+
+        <div class="ac-testi-card">
+          <div class="ac-testi-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+          <blockquote>"Un ambiente seguro y de confianza para aprender. Superaron mis expectativas."</blockquote>
+          <div class="ac-testi-author">
+            <div class="ac-testi-avatar"><i class="fa fa-user"></i></div>
+            <div><div class="ac-testi-name">Laura Giménez</div><div class="ac-testi-role">Portación de Armas</div></div>
+          </div>
+        </div>
+
+        <div class="ac-testi-card">
+          <div class="ac-testi-stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+          <blockquote>"La gestoría para los trámites fue impecable, me ahorraron mucho tiempo y dolores de cabeza."</blockquote>
+          <div class="ac-testi-author">
+            <div class="ac-testi-avatar"><i class="fa fa-user"></i></div>
+            <div><div class="ac-testi-name">Martín Torres</div><div class="ac-testi-role">Gestoría RENAR</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="ac-cta-section">
+    <div class="container">
+      <h2>¿Listo para comenzar?</h2>
+      <p>Escribinos por WhatsApp y te contamos todo sobre los próximos cursos disponibles.</p>
+      <a href="https://wa.me/5491124808090?text=Hola%2C%20quisiera%20inscribirme%20en%20BZ%20Academia" target="_blank" class="ac-btn-primary" style="margin: 0 auto; justify-content: center; max-width: 280px; display: flex;">
+        <i class="fa fa-whatsapp"></i> Escribinos por WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="ac-lightbox" id="acLightbox">
+    <button class="ac-lightbox-close" id="acLightboxClose">&times;</button>
+    <img id="acLightboxImg" src="" alt="">
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="ac-footer">
+    <div class="container">
+      <div class="ac-footer-inner">
+        <a href="index.html"><img src="images/logo.png" alt="BZ Seguridad" style="height:32px; opacity:0.7;"></a>
+        <div style="display:flex; gap:24px;">
+          <a href="index.html" style="font-family:'Rajdhani',sans-serif; font-size:12px; color:rgba(255,255,255,0.4); text-decoration:none; text-transform:uppercase; letter-spacing:1px;">Inicio</a>
+          <a href="nosotros.html" style="font-family:'Rajdhani',sans-serif; font-size:12px; color:rgba(255,255,255,0.4); text-decoration:none; text-transform:uppercase; letter-spacing:1px;">Nosotros</a>
+          <a href="contacto.html" style="font-family:'Rajdhani',sans-serif; font-size:12px; color:rgba(255,255,255,0.4); text-decoration:none; text-transform:uppercase; letter-spacing:1px;">Contacto</a>
+        </div>
+      </div>
+      <div class="ac-footer-copy">
+        &copy; <span id="displayYear"></span> BZ Seguridad Privada. Todos los derechos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script>
+    document.getElementById('displayYear').textContent = new Date().getFullYear();
+    document.getElementById('acHamburger').addEventListener('click', function(){
+      document.getElementById('acMenu').classList.toggle('open');
+    });
+
+    // Lightbox
+    var lb = document.getElementById('acLightbox');
+    var lbImg = document.getElementById('acLightboxImg');
+    document.querySelectorAll('.ac-card').forEach(function(card){
+      card.addEventListener('click', function(){
+        lbImg.src = card.querySelector('img').src;
+        lb.classList.add('open');
+      });
+    });
+    document.getElementById('acLightboxClose').addEventListener('click', function(){ lb.classList.remove('open'); });
+    lb.addEventListener('click', function(e){ if(e.target === lb) lb.classList.remove('open'); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') lb.classList.remove('open'); });
+  </script>
+</body>
+</html>
