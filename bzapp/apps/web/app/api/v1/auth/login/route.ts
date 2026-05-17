@@ -80,7 +80,7 @@ export async function POST(req: Request) {
   // Update last login
   await prisma.user.update({ where: { id: user.id }, data: { lastLoginAt: new Date() } });
 
-  setAuthCookies(accessToken, refreshTokenRaw);
+  await setAuthCookies(accessToken, refreshTokenRaw);
 
   return NextResponse.json({
     user: { id: user.id, email: user.email, name: user.name },

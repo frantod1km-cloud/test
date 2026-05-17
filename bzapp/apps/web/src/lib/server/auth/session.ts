@@ -12,8 +12,8 @@ export async function getSession(): Promise<JwtPayload | null> {
   return verifyAccessToken(token);
 }
 
-export function setAuthCookies(accessToken: string, refreshToken: string) {
-  const cookieStore = cookies() as any; // Next.js 15 cookies() is async in middleware but sync in route handlers
+export async function setAuthCookies(accessToken: string, refreshToken: string) {
+  const cookieStore = await cookies();
   const isProduction = process.env.NODE_ENV === 'production';
 
   // Access token — short lived
@@ -35,13 +35,13 @@ export function setAuthCookies(accessToken: string, refreshToken: string) {
   });
 }
 
-export function clearAuthCookies() {
-  const cookieStore = cookies() as any;
+export async function clearAuthCookies() {
+  const cookieStore = await cookies();
   cookieStore.delete(ACCESS_TOKEN_COOKIE);
   cookieStore.delete(REFRESH_TOKEN_COOKIE);
 }
 
-export function getRefreshTokenFromCookie(): string | null {
-  const cookieStore = cookies() as any;
+export async function getRefreshTokenFromCookie(): Promise<string | null> {
+  const cookieStore = await cookies();
   return cookieStore.get(REFRESH_TOKEN_COOKIE)?.value ?? null;
 }

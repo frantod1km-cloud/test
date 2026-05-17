@@ -26,6 +26,7 @@ const schema = z.object({
 });
 
 export async function POST(req: Request) {
+  try {
   const body = await req.json();
   const parsed = schema.safeParse(body);
 
@@ -129,7 +130,7 @@ export async function POST(req: Request) {
     },
   });
 
-  setAuthCookies(accessToken, refreshTokenRaw);
+  await setAuthCookies(accessToken, refreshTokenRaw);
 
   return NextResponse.json(
     {
@@ -138,4 +139,11 @@ export async function POST(req: Request) {
     },
     { status: 201 },
   );
+  } catch (err: any) {
+    console.error('[register] Error:', err);
+    return NextResponse.json(
+      { type: 'server_error', title: 'Registration failed', status: 500, detail: err?.message ?? 'Unknown error' },
+      { status: 500 },
+    );
+  }
 }
